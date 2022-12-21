@@ -1,0 +1,95 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+body {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  gap: 2%;
+  background-color: yellow;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  width: 40%;
+}
+.containerLabel{
+    padding: 0px 8px;
+    border-radius: 20px;
+    font-size: 25px;
+    font-weight: bold;
+    /* background-color:rgba(132,150,173,0.18) ; */
+    background-color: rgba(255 ,0 ,0 ,0.3);
+    color: rgb(11 3 209 / 90%);
+}
+
+.imageContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 2px;
+    border: 1px;
+    border-radius: 5%;
+    border-style: dashed;
+    border-color: rgba(0, 0, 0, 0.6);
+    background-color: gold;
+
+}
+.magnitudeImageBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    background-color:  rgb(50, 43, 226,0.9);/*   rgb(138, 43, 226);*/
+    padding: 8px;
+    border-radius: 20px;
+}
+.magnitudeImageBtn:hover{
+    background-color:   rgb(30, 20, 226);/* rgba(138, 43, 226)*/
+}
+
+.magnitudeImage{
+    display: none;
+    height: 100%;
+    width: 100%;
+    border-radius: 5%;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.phaseImageBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    background-color:  rgb(50, 43, 226,0.9);/*   rgb(138, 43, 226);*/
+    padding: 8px;
+    border-radius: 20px;
+}
+.phaseImageBtn:hover{
+    background-color:   rgb(30, 20, 226);/* rgba(138, 43, 226)*/
+}
+
+.phaseImage{
+    display: none;
+    height: 100%;
+    width: 100%;
+    border-radius: 5%;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
