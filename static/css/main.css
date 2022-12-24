@@ -1,36 +1,36 @@
 * {
-  padding: 0px;
-  margin: 0px;
+    padding: 0px;
+    margin: 0px;
 }
-
 body {
-  display: flex;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-  gap: 2%;
-  background-color: yellow;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    gap: 2%;
+    background-color: yellow;
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 80%;
-  width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+    width: 40%;
 }
-.containerLabel{
+
+.containerLabel {
     padding: 0px 8px;
     border-radius: 20px;
     font-size: 25px;
     font-weight: bold;
     /* background-color:rgba(132,150,173,0.18) ; */
-    background-color: rgba(255 ,0 ,0 ,0.3);
+    background-color: rgba(255, 0, 0, 0.3);
     color: rgb(11 3 209 / 90%);
 }
 
-.imageContainer{
+.imageContainer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -44,7 +44,8 @@ body {
     background-color: gold;
 
 }
-.magnitudeImageBtn{
+
+.magnitudeImageBtn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,15 +53,18 @@ body {
     font-size: 20px;
     font-weight: bold;
     color: #fff;
-    background-color:  rgb(50, 43, 226,0.9);/*   rgb(138, 43, 226);*/
+    background-color: rgb(50, 43, 226, 0.9);
+    /*   rgb(138, 43, 226);*/
     padding: 8px;
     border-radius: 20px;
 }
-.magnitudeImageBtn:hover{
-    background-color:   rgb(30, 20, 226);/* rgba(138, 43, 226)*/
+
+.magnitudeImageBtn:hover {
+    background-color: rgb(30, 20, 226);
+    /* rgba(138, 43, 226)*/
 }
 
-.magnitudeImage{
+#magnitudeImage {
     display: none;
     height: 100%;
     width: 100%;
@@ -68,8 +72,14 @@ body {
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
+.hide {
+	display: none;
+}
 
-.phaseImageBtn{
+img {
+	max-width: 100%;
+}
+.phaseImageBtn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -77,15 +87,18 @@ body {
     font-size: 20px;
     font-weight: bold;
     color: #fff;
-    background-color:  rgb(50, 43, 226,0.9);/*   rgb(138, 43, 226);*/
+    background-color: rgb(50, 43, 226, 0.9);
+    /*   rgb(138, 43, 226);*/
     padding: 8px;
     border-radius: 20px;
 }
-.phaseImageBtn:hover{
-    background-color:   rgb(30, 20, 226);/* rgba(138, 43, 226)*/
+
+.phaseImageBtn:hover {
+    background-color: rgb(30, 20, 226);
+    /* rgba(138, 43, 226)*/
 }
 
-.phaseImage{
+.phaseImage {
     display: none;
     height: 100%;
     width: 100%;
