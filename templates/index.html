@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="input-labels">
+          <label class="input-labels1">Choose Magnitude</label>
+          <label class="input-label2">Choose Phase</label>
+      </div>
+
+      <!-- input -->
+      <div class="input-container">
+        <!-- magnitude -->
+        <div class="imageContainer">
+          <input
+            id="magnitudeImageInput"
+            type="file"
+            accept="image/*"
+            style="display: none"
+          />
+          <label for="magnitudeImageInput" class="magnitudeImageBtn"
+            >Upload</label
+          >
+        </div>
+      </div>
+      <div id="canvas-magnitude" </div>
+        <!-- phase -->
+        <div class="imageContainer">
+          <input
+            id="phaseImageInput"
+            type="file"
+            accept="image/*"
+            style="display: none"
+          />
+          <label for="phaseImageInput" class="phaseImageBtn">Upload</label>
+        </div>
+        <div id="canvas-phase" </div>
+      </div>
+
+        <div class="out-labels">
+          <label class="out-labels1">The Magnitude</label>
+          <label class="out-label2">The Phase</label>
+          <label class="out-label3">The Result</label>
+      </div>
+
+      <!-- Output -->
+      <div class="output-container">
+        <!-- magnitude -->
+        <div class="resultContainer">
+          <img class="magnitudeImage" />
+        </div>
+        <!-- phase -->
+        <div class="resultContainer">
+          <img class="phaseImage" />
+        </div>
+        <!-- Result -->
+        <div class="resultContainer">
+          <img class="phaseImage" />
+       </div>
+      </div>
+      </body>
+</html>
