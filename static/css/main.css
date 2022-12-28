@@ -47,7 +47,7 @@
     margin-top: -35px;
   }
   
-.canvas {
+.imageContainer{
     display: flex;
     /* flex-direction: column; */
     justify-content: center;
@@ -61,7 +61,22 @@
     position: relative;
     /* margin-top: 2vh; */
   }
-  
+  /* #magnitudeImage {
+    display: none;
+    height: 100%;
+    width: 100%;
+    border-radius: 5%;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+#phaseImage {
+  display: none;
+  height: 100%;
+  width: 100%;
+  border-radius: 5%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+} */
   .out-labels {
     display: flex;
     align-items: center;
