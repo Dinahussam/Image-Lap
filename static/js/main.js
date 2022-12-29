@@ -7,18 +7,30 @@ let phaseImage = document.querySelector("#phaseImage");
 let magFlag=0;
 let phaseFlag=0;
 var path = "";
-function getIndex(image,i){
-  cropper = new Cropper( image, {
-  });	
+function getIndex(cropped,image){
   image.addEventListener('cropend', (event) => {
-  // cropper.getCroppedCanvas().toBlob(function (blob){
-  //   console.log(blob);
-    values=[]
-    var data=cropper.getData();
+    var data=cropped.getData();
     values=Object.values(data);
-    console.log(data);
     console.log(values);
+  //   if(image===magnitudeImage){
+  //   $.ajax({
+  //     type: "POST",
+  //     url: "/data/1",
+  //     data: JSON.stringify({values}),
+  //     contentType: "application/json",
+  //     dataType: 'json'
+  //   });
+  // }else{
+  //   $.ajax({
+  //     type: "POST",
+  //     url: "/data/2",
+  //     data: JSON.stringify({values}),
+  //     contentType: "application/json",
+  //     dataType: 'json'
+  //   });
+  // }
   });
+  
 }
 function upload_image_action(image,button) {
   button.style.display = `none`;
@@ -29,25 +41,26 @@ magnitudeImageInput.addEventListener("change", function () {
   reader.addEventListener("load" ,() => {
   path = reader.result;
   magnitudeImage.src = `${path}`;
-  getIndex(magnitudeImage,1);
- 
+  cropper1 = new Cropper( magnitudeImage, {
+  });	
+  getIndex(cropper1,magnitudeImage);
   upload_image_action(magnitudeImage,magnitudeImageBtn);
   });
   reader.readAsDataURL(this.files[0]);
   let formData = new FormData();
   formData.append("file", this.files[0]);
   console.log(formData);
-  $.ajax({
-    type: "POST",
-    url: "/image/1",
-    data: formData,
-    contentType: false,
-    cache: false,
-    processData: false,
-    async: true,
-    success: function () {
-    },
-});
+//   $.ajax({
+//     type: "POST",
+//     url: "/image/1",
+//     data: formData,
+//     contentType: false,
+//     cache: false,
+//     processData: false,
+//     async: true,
+//     success: function () {
+//     },
+// });
 });
 phaseImageInput.addEventListener("change", function () {
   let reader = new FileReader();
@@ -56,24 +69,26 @@ phaseImageInput.addEventListener("change", function () {
   path = reader.result;
   path = reader.result;
   phaseImage.src = `${path}`;
-  getIndex(phaseImage,2);
-  upload_image_action(phaseImage,magnitudeImageBtn);
+  cropper2 = new Cropper( phaseImage, {
+  });	  
+  getIndex(cropper2,phaseImage);
+  upload_image_action(phaseImage,phaseImageBtn);
   });
 reader.readAsDataURL(this.files[0]);
 let formData = new FormData();
 formData.append("file", this.files[0]);
 console.log(formData);
-$.ajax({
-  type: "POST",
-  url: "/image/2",
-  data: formData,
-  contentType: false,
-  cache: false,
-  processData: false,
-  async: true,
-  success: function () {
-  },
-});
+// $.ajax({
+//   type: "POST",
+//   url: "/image/2",
+//   data: formData,
+//   contentType: false,
+//   cache: false,
+//   processData: false,
+//   async: true,
+//   success: function () {
+//   },
+// });
 });
 // function  resultImage( returned_data){
 

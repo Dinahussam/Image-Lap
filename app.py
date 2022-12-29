@@ -26,7 +26,16 @@ def image(id):
             filename=secure_filename( file_phase .filename)
             file_path_phase= os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file_phase .save(file_path_phase)
-    return render_template('main.html')
+    return []
+@app.route('/data/', methods=['POST'])
+# def data():
+#     if request.method == 'POST':
+#             form=request.get_json()
+#             values = form['values']
+#             print(values)
+        
+            
+#     return []
 
     
 if __name__ == '__main__':
