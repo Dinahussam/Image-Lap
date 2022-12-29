@@ -11,40 +11,81 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <!-- Cropper CSS -->
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css'>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- icons -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- Bootstrap CSS
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    Bootstrap Font Icon CSS
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"> -->
+
     <script src='https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js'></script>
 </head>
 <body>
     <div class="container">
         <div class="input-labels">
-            <label class="input-labels1">Choose Magnitude</label>
-            <label class="input-label2">Choose Phase</label>
-        </div>
+            <label class="magnitude-label">Choose Magnitude</label>
+            <label class="phase-label">Choose Phase</label>
+         </div>
         <!-- input -->
         <div class="input-container">
             <!-- magnitude -->
             <div class="imageContainer">
-            <input
-                id="magnitudeImageInput"
-                type="file"
-                accept="image/*"
-                style="display: none"
-            />
-            <img id="magnitudeImage" src="" alt=""></img>
-            <label for="magnitudeImageInput" class="magnitudeImageBtn"
-                >Upload</label>
+                <input
+                    id="magnitudeImageInput"
+                    type="file"
+                    accept="image/*"
+                    style="display: none"
+                />
+                <img class="magnitude-image" id="magnitudeImage">
+                <label for="magnitudeImageInput" class="magnitudeImageBtn"><i class="fa fa-upload" id="mag-icon"></i></label>
+            <!-- <i class="fas fa-upload"></i> -->
             </div>
+        
+            <!-- <div class="mag-input">
+                <div class="input-labels">
+                    <label for="magnitudeImageInput" class="magnitudeImageBtn">Choose Magnitude</label>
+                </div>
+                <div class="imageContainer">
+                    <input
+                        id="magnitudeImageInput"
+                        type="file"
+                        accept="image/*"
+                        style="display: none"
+                    />
+                    <img class="magnitude-image" id="magnitudeImage">
+                </div>
+            </div> -->
         <!-- phase -->
             <div class="imageContainer">
-            <input
-                id="phaseImageInput"
-                type="file"
-                accept="image/*"
-                style="display: none"
-            />
-            <img id="phaseImage" src="" alt=""></img>
-            <label for="phaseImageInput" class="phaseImageBtn">pload</label>
+                <!-- <i class="fa fa-upload" id="phase-icon"></i> -->
+                <input
+                    id="phaseImageInput"
+                    type="file"
+                    accept="image/*"
+                    style="display: none"
+                />
+                <img class="phase-image" id="phaseImage">
+                <label for="phaseImageInput" class="phaseImageBtn"><i class="fa fa-upload" id="mag-icon"></i></i></label>
+                <!-- <label for="phaseImageInput" class="phaseImageBtn"><i class="bi bi-cloud-arrow-up"></i></label> -->
             </div>
+            <!-- <div class="phase-input">
+                <div class="input-labels">
+                    <label for="phaseImageInput" class="phaseImageBtn">Choose Phase</label>
+                </div>
+                <div class="imageContainer">
+                    <input
+                        id="phaseImageInput"
+                        type="file"
+                        accept="image/*"
+                        style="display: none"
+                    />
+                    <img class="phase-image" id="phaseImage">
+                </div>
+                    
+            </div> -->
         </div>
         <div class="out-labels">
             <label class="out-labels1">The Magnitude</label>
@@ -55,19 +96,24 @@
         <div class="output-container">
             <!-- magnitude -->
             <div class="resultContainer">
-            <img class="magnitudeImage" />
+                <i class="material-icons" id="result-mag">center_focus_weak</i>
+                <img class="magnitudeImage" />
             </div>
             <!-- phase -->
             <div class="resultContainer">
-            <img class="phaseImage" />
+                <i class="material-icons" id="result-phase">center_focus_strong</i>
+                <img class="phaseImage" />
             </div>
             <!-- Result -->
             <div class="resultContainer">
-            <img class="phaseImage" />
+                <i class="material-icons" id="result-icon">compare</i>
+                <img class="phaseImage" />
+            </div>
         </div>
-        </div>
-        <script src="/static/js/main.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
         <!-- Cropper JS -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js'></script>
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
