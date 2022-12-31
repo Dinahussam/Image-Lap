@@ -1,25 +1,3 @@
-# # Python program to read image using OpenCV
-
-# # importing OpenCV(cv2) module
-# import cv2
-
-# # Save image in set directory
-# # Read RGB image
-# img = cv2.imread('upload/phase.jpeg')
-
-# # Output img with window name as 'image'
-# cv2.imshow('image', img)
-
-# # Maintain output window utill
-# # user presses a key
-# cv2.waitKey(0)
-
-# # Destroying present windows on screen
-# cv2.destroyAllWindows()
-
-
-
-
 from flask import Flask, jsonify, render_template, request, redirect
 import os
 import cv2
@@ -40,37 +18,38 @@ imagePath = {"magnitude": "", "phase": "", "combined": ""}
 
 # Main Function(connection the functions together):
 def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phase, y2_phase):  # , cut_flag (for circle)
+    print("welcome from the main function for images")
     combined_image = 0
     image1 = img1.read()  # First Object
     image2 = img2.read()  # Second Object
-    
+
     img1_gray = ImageClass.grayScale(image1)
     img2_gray = ImageClass.grayScale(image2)
-    
+
     image1_resized = ProcessingClass.Resize(img1_gray)
     image2_resized = ProcessingClass.Resize(img2_gray)
-    
+
     image1_resized_fft = ImageClass.fourierTransform(image1_resized)
     image2_resized_fft = ImageClass.fourierTransform(image2_resized)
-    
+
     image1_amplitude, image1_phase = ImageClass.separateMagnitudePhase(image1_resized_fft)
     image2_amplitude, image2_phase = ImageClass.separateMagnitudePhase(image2_resized_fft)
 
-    
+
 #     if cut_flag == 0:  # Cut in a rectangle shape
     cutted_phase_img = ProcessingClass.crop_2d_img_rect(image2_phase, x1_phase, x2_phase, y1_phase, y2_phase)
     cutted_amplitude_img = ProcessingClass.crop_2d_img_rect(image1_amplitude, x1_amp, x2_amp, y1_amp, y2_amp)
-        
+
     combined_image = ProcessingClass.combination(cutted_amplitude_img, cutted_phase_img)
-        
-    
+
+
 #     if cut_flag == 1:  # Cut in a rectangle shape
 #         radius_phase = ProcessingClass.distance_between_two_points(x1_phase, x2_phase, y1_phase, y2_phase)
 #         radius_magnitude = ProcessingClass.distance_between_two_points(x1_amp, x2_amp, y1_amp, y2_amp)
-        
+
 #         cutted_phase_img = ProcessingClass.crop_2d_img_cir(image2_phase, x1_phase, y1_phase, radius_phase)
 #         cutted_amplitude_img = ProcessingClass.crop_2d_img_cir(image1_amplitude, x1_amp, y1_amp, radius_magnitude)
-        
+
 #         combined_image = ProcessingClass.combination(cutted_amplitude_img, cutted_phase_img)
 
     return combined_image
@@ -90,6 +69,8 @@ def restart_values(key):
 
 def set_values(key, list):
     i = 0
+    print("it is the list ")
+    print(list)
     for item in values[key]:
         values[key][item] = list[i]
         i = +1
@@ -136,7 +117,8 @@ def data(id):
             key = "magnitude"
         else:
             key = "phase"
-        set_values(key, form)
+        print(form["values"])
+        set_values(key, form["values"])
     return redirect('/')
 
 
