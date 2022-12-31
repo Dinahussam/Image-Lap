@@ -11,7 +11,6 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <!-- Cropper CSS -->
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css'>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- icons -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -21,15 +20,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
     Bootstrap Font Icon CSS
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"> -->
-
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js'></script>
 </head>
 <body>
     <div class="container">
         <div class="input-labels">
             <label class="magnitude-label">Choose Magnitude</label>
             <label class="phase-label">Choose Phase</label>
-         </div>
+        </div>
         <!-- input -->
         <div class="input-container">
             <!-- magnitude -->
@@ -42,7 +39,7 @@
             type="file"
             accept="image/*"
             style="display: none"
-        />
+            />
         <label for="magnitudeImageInput" class="magnitudeImageBtn"><i class="fa fa-upload" id="mag-icon"></i></label>
         
             <!-- <div class="mag-input">
@@ -63,7 +60,7 @@
             <div class="imageContainer"id="canvas-phase">
                 <!-- <i class="fa fa-upload" id="phase-icon"></i> -->
                 <!-- <label for="phaseImageInput" class="phaseImageBtn"><i class="bi bi-cloud-arrow-up"></i></label> -->
-            <img class="phase-image" id="phaseImage">
+            <img class="phase-image"  id="phaseImage">
             </div>
             <input
             id="phaseImageInput"
@@ -114,6 +111,7 @@
                 <img class="phaseImage" />
             </div>
         </div>
+    </div> 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
         <!-- Cropper JS -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js'></script>

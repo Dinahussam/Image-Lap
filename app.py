@@ -91,6 +91,7 @@ def data(id):
     if request.method == 'POST':
         key = ""
         form = request.get_json()
+        print(id)
         print(form)
         if (id == 1):
             key = "magnitude"
