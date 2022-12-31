@@ -6,6 +6,8 @@ class Functions:
     @staticmethod
     # Load two different grayscale images:
     def Load(image1, image2):
+        print(image1)
+        print(image2)
         img1 = cv2.imread(image1)
         img2 = cv2.imread(image2)
         img1_gray = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
@@ -87,6 +89,8 @@ class Functions:
     # Main Function(connection the functions together):
     def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phase, y2_phase):
         combined_image = 0
+        print(img1)
+        print(img2)
         image1, image2 = Functions.Load(img1, img2)
         image1_resized, image2_resized = Functions.Resize(image1, image2, img1, img2)
         image1_resized_fft, image2_resized_fft = Functions.FourierTransform(image1_resized, image2_resized)

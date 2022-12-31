@@ -1,6 +1,28 @@
+# # Python program to read image using OpenCV
+
+# # importing OpenCV(cv2) module
+# import cv2
+
+# # Save image in set directory
+# # Read RGB image
+# img = cv2.imread('upload/phase.jpeg')
+
+# # Output img with window name as 'image'
+# cv2.imshow('image', img)
+
+# # Maintain output window utill
+# # user presses a key
+# cv2.waitKey(0)
+
+# # Destroying present windows on screen
+# cv2.destroyAllWindows()
+
+
+
 
 from flask import Flask, jsonify, render_template, request, redirect
 import os
+import cv2
 from functions import Functions
 from werkzeug.utils import secure_filename
 from PIL import Image
@@ -12,14 +34,13 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 values = {"magnitude": {"x1": None, "y1": None, "x2": None, "y2": None},
           "phase": {"x1": None, "y1": None, "x2": None, "y2": None}}
-imagePath = {"magnitude": "", "phase": "","combined":""}
+imagePath = {"magnitude": "", "phase": "", "combined": ""}
 
 
 def save_image(file, type):
     name = type+'.'+file.filename.split('.')[-1]
-    imagePath[type] = name
+    imagePath[type] = 'upload/'+name
     file_path_mag = os.path.join(app.config['UPLOAD_FOLDER'], name)
-    print(file_path_mag)
     file.save(file_path_mag)
 
 
@@ -40,10 +61,14 @@ def index():
     magnitude = values['magnitude']
     phase = values["phase"]
     if (magnitude['x1'] != None) and (phase["x1"] != None):
-        combiendImage=Functions.Main(imagePath["magnitude"], magnitude['x1'], magnitude['y1'], magnitude["x2"],
-                       magnitude["y2"], imagePath['phase'], phase["x1"], phase["y1"], phase["x2"], phase["y2"])
-        im=Image.fromarray(combiendImage)
-        im.save("/upload/combined.jpg")
+        combinedImage = Functions.Main(imagePath["magnitude"], imagePath["phase"], magnitude["x1"], magnitude["x2"],
+                                       magnitude["y1"], magnitude["y2"], phase["x1"], phase["x2"], phase["y1"], phase["y2"])
+        # print("here")
+        # im=cv2.imshow("image",combinedImage)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
+        # im = Image.fromarray(combinedImage)
+        # im.save("upload/combined.jpg")
     return render_template('main.html')
 
 
