@@ -41,7 +41,7 @@ def index():
     phase = values["phase"]
     if (magnitude['x1'] != None) and (phase["x1"] != None):
         combiendImage=Functions.Main(imagePath["magnitude"], magnitude['x1'], magnitude['y1'], magnitude["x2"],
-                       magnitude["y2"], imagePath['phase'], phase["x1"], phase["y1"], phase["x2"], phase["y2"])
+                    magnitude["y2"], imagePath['phase'], phase["x1"], phase["y1"], phase["x2"], phase["y2"])
         im=Image.fromarray(combiendImage)
         im.save("/upload/combined.jpg")
     return render_template('main.html')
@@ -66,6 +66,7 @@ def data(id):
     if request.method == 'POST':
         key = ""
         form = request.get_json()
+        print(form)
         if (id == 1):
             key = "magnitude"
         else:

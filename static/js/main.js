@@ -4,24 +4,39 @@ let magnitudeImage = document.querySelector("#magnitudeImage");
 let magnitudeImageBtn = document.querySelector(".magnitudeImageBtn");
 let phaseImageBtn = document.querySelector(".phaseImageBtn");
 let phaseImage = document.querySelector("#phaseImage");
-// let imageCrop=document.getElementById('image-box');
 let mag_icon = document.querySelector("#mag-icon");
 let phase_icon = document.querySelector("#phase-icon");
-let rectFlag = 0;
-let phaseFlag = 0;
-let magFlag=0;
+var iamge;
+let rectFlag = 1;
+// let phaseFlag = 0;
+// let magFlag=0;
 var path = "";
 let rect;
+let cir;
+var tr1;
+var circleFlag=0;
+var containerUsed;
+// var stageUsed;
 let rectArray = [];
-let magPoints = [];
-let phasePoints = [];
+let cirArray=[];
+let stagArray=[];
 let isNowDrawing = false;
 var path = "";
+function send(id){
+      $.ajax({
+        type: "POST",
+        url: "/data/"+id,
+        data: JSON.stringify({values}),
+        contentType: "application/json",
+        dataType: 'json'
+      });
+}
 function upload_image_action(image,button) {
   image.style.display = `flex`;
   button.style.display = `none`;
 }
 function drawStage(contain){
+containerUsed=contain;
 var stage = new Konva.Stage({
   container: contain,
   width: 500,
@@ -42,18 +57,20 @@ function circleDown(stage,layer) {
     radius: 0,
     fill: "transparent",
     stroke: "##1d27b6",
-    strokeWidth: 4,
+    strokeWidth: 2,
   });
   layer.add(cir);
+  cirArray.push(cir);
   layer.draw();
 }
 function circleMove(stage) {
   const rise = Math.pow(stage.getPointerPosition().y - cir.y(), 2);
   const run = Math.pow(stage.getPointerPosition().x - cir.x(), 2);
+  console.log(rise);
+  console.log(run);
   const newRadius = Math.sqrt(rise + run);
   cir.radius(newRadius);
 }
-
 function rectDown(stage,layer){
   rect = new Konva.Rect({
     x: stage.getPointerPosition().x,
@@ -66,7 +83,17 @@ function rectDown(stage,layer){
   });
   layer.add(rect);
   rectArray.push(rect);
+  //layer.draw();
+  // tr1 = new Konva.Transformer({
+  //   nodes: [rect],
+  //   // ignore stroke in size calculations
+  //   ignoreStroke: true,
+  //   // manually adjust size of transformer
+  //   padding: 5,
+  // });
+  // layer.add(tr1);
   layer.draw();
+  
 }
 function rectMove(stage){
   const newWidth = stage.getPointerPosition().x - rect.x();
@@ -75,52 +102,59 @@ function rectMove(stage){
   rect.height(newHeight);
 }
 function drawRect(stage,layer){
-  stage.on("mousedown ", mousedownHandler);
+  stage.on("mousedown ",(e)=> mousedownHandler(e));
   stage.on("mousemove ", mousemoveHandler);
   stage.on("mouseup ", mouseupHandler);
   values=[];
   function mousedownHandler() {
+    
     if(rectArray.length>0){
       rect.destroy();
       values=[];
     }
+    if(cirArray.length>0){
+        cir.destroy();
+        values=[];
+    }
+    if(stage.getpointerPosition===tr1){
+      isNowDrawing=false;
+    }
       isNowDrawing = true;
       values.push(stage.getPointerPosition().x);
       values.push(stage.getPointerPosition().y);
-      rectDown(stage,layer);
+      if(circleFlag===1){
+      circleDown(stage,layer);
+      }else{
+      rectDown(stage,layer);  
+      } 
   }
   function mousemoveHandler() {
-
       if (!isNowDrawing) return false;
+      if(circleFlag===1){
+        circleMove(stage);
+      }else{
       rectMove(stage);
+      }
   }
   function mouseupHandler() {
       isNowDrawing = false;
       values.push(stage.getPointerPosition().x);
       values.push(stage.getPointerPosition().y);
-      if(stage===stageMagnitude){
-        $.ajax({
-        type: "POST",
-        url: "/data/1",
-        data: JSON.stringify(values),
-        contentType: "application/json",
-        dataType: 'json'
-      });}else{
-      $.ajax({
-        type: "POST",
-        url: "/data/2",
-        data: JSON.stringify(values),
-        contentType: "application/json",
-        dataType: 'json'
-      });
+      
+      if(containerUsed==="canvas-magnitude"){
+        send(1);
+        console.log(values);
+      }else if(containerUsed==="canvas-phase"){
+        send(2);
     }
   }
   stage.add(layer);
 }
 function drawImage(img,path,layer){
   img.src = `${path}`;
+  
   img.onload = function() {
-  var theImg = new Konva.Image({
+  theImg = new Konva.Image({
     image: img,
     x: 0,
     y: 0,
@@ -131,23 +165,33 @@ function drawImage(img,path,layer){
   layer.draw();
 }
 }
-magnitudeImageInput.addEventListener("change", function () {
-  let reader = new FileReader();
-  magnitudeImage.style.display = `flex`;
+magnitudeImageInput.addEventListener("change",() => { 
+  upload(magnitudeImage,1,"canvas-magnitude",magnitudeImageBtn,magnitudeImageInput)
+}
+  );
+phaseImageInput.addEventListener("change",()=> {
+upload(phaseImage,2,"canvas-phase",phaseImageBtn,phaseImageInput)
+}
+);
+function upload(uploadImage,number,container,uploadButton,input){
+  reader = new FileReader();
+  uploadImage.style.display = `flex`;
   reader.addEventListener("load" ,() => {
   path = reader.result;
-  stageMagnitude=drawStage('canvas-magnitude');
-  layerMagnitude=drawLayer(stageMagnitude);
-  drawImage(magnitudeImage,path,layerMagnitude,stageMagnitude);
-  drawRect(stageMagnitude,layerMagnitude,magnitudeImage);
-  upload_image_action(magnitudeImage,magnitudeImageBtn);
+  stage=drawStage(container);
+  stagArray.push(stage);
+  layer=drawLayer(stage);
+  image=drawImage(uploadImage,path,layer,stage);
+  drawRect(stage,layer,uploadImage);
+  upload_image_action(uploadImage,uploadButton);
   });
-  reader.readAsDataURL(this.files[0]);
+  reader.readAsDataURL(input.files[0]);
+  
   let formData = new FormData();
-  formData.append("file", this.files[0]);
+  formData.append("file", input.files[0]);
     $.ajax({
       type: "POST",
-      url: "/image/1",
+      url: "/image/"+number,
       data: formData,
       contentType: false,
       cache: false,
@@ -156,30 +200,27 @@ magnitudeImageInput.addEventListener("change", function () {
       success: function () {
       },
   });
-});
-phaseImageInput.addEventListener("change", function () {
-  let reader = new FileReader();
-  phaseImage.style.display = `flex`;
-  reader.addEventListener("load" ,() => {
-  path = reader.result;
-  stagePhase=drawStage('canvas-phase');
-  layerPhase=drawLayer(stagePhase);
-  drawImage(phaseImage,path,layerPhase,stagePhase);
-  drawRect(stagePhase,layerPhase,phaseImage);
-  upload_image_action(phaseImage,phaseImageBtn);
-  });
-reader.readAsDataURL(this.files[0]);
-let formData = new FormData();
-  formData.append("file", this.files[0]);
-  $.ajax({
-      type: "POST",
-      url: "/image/2",
-      data: formData,
-      contentType: false,
-      cache: false,
-      processData: false,
-      async: true,
-      success: function () {
-      },
-  });
-});
+}
+function deleteData(){
+  for(i=0;i<stagArray.length;i++){
+  stagArray[i].destroy();  
+  }
+  magnitudeImageBtn.style.display = `flex`;
+  phaseImageBtn.style.display=`flex`;
+  magnitudeImageInput.addEventListener("change",() => { 
+    upload(magnitudeImage,1,"canvas-magnitude",magnitudeImageBtn,magnitudeImageInput)
+  }
+    );
+  phaseImageInput.addEventListener("change",()=> {
+  upload(phaseImage,2,"canvas-phase",phaseImageBtn,phaseImageInput)
+  }
+  );
+}
+function dataCircle(){
+  circleFlag=1;
+  rectFlag=0;
+}
+function dataRect(){
+  circleFlag=0;
+  rectFlag=1;
+}
