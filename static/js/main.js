@@ -87,7 +87,7 @@ function drawRect(stage,layer){
       isNowDrawing = true;
       values.push(stage.getPointerPosition().x);
       values.push(stage.getPointerPosition().y);
-      rectDown(stage,layer);   
+      rectDown(stage,layer);
   }
   function mousemoveHandler() {
 
@@ -98,22 +98,22 @@ function drawRect(stage,layer){
       isNowDrawing = false;
       values.push(stage.getPointerPosition().x);
       values.push(stage.getPointerPosition().y);
-    //   if(stage===stageMagnitude){
-    //     $.ajax({
-    //     type: "POST",
-    //     url: "/data/1",
-    //     data: JSON.stringify({values}),
-    //     contentType: "application/json",
-    //     dataType: 'json'
-    //   });}else{
-    //   $.ajax({
-    //     type: "POST",
-    //     url: "/data/2",
-    //     data: JSON.stringify({values}),
-    //     contentType: "application/json",
-    //     dataType: 'json'
-    //   });
-    // }
+      if(stage===stageMagnitude){
+        $.ajax({
+        type: "POST",
+        url: "/data/1",
+        data: JSON.stringify(values),
+        contentType: "application/json",
+        dataType: 'json'
+      });}else{
+      $.ajax({
+        type: "POST",
+        url: "/data/2",
+        data: JSON.stringify(values),
+        contentType: "application/json",
+        dataType: 'json'
+      });
+    }
   }
   stage.add(layer);
 }
@@ -131,7 +131,7 @@ function drawImage(img,path,layer){
   layer.draw();
 }
 }
-magnitudeImageInput.addEventListener("change", function () { 
+magnitudeImageInput.addEventListener("change", function () {
   let reader = new FileReader();
   magnitudeImage.style.display = `flex`;
   reader.addEventListener("load" ,() => {
@@ -143,25 +143,25 @@ magnitudeImageInput.addEventListener("change", function () {
   upload_image_action(magnitudeImage,magnitudeImageBtn);
   });
   reader.readAsDataURL(this.files[0]);
-  // let formData = new FormData();
-  // formData.append("file", this.files[0]);
-  //   $.ajax({
-  //     type: "POST",
-  //     url: "/image/1",
-  //     data: formData,
-  //     contentType: false,
-  //     cache: false,
-  //     processData: false,
-  //     async: true,
-  //     success: function () {
-  //     },
-  // });
+  let formData = new FormData();
+  formData.append("file", this.files[0]);
+    $.ajax({
+      type: "POST",
+      url: "/image/1",
+      data: formData,
+      contentType: false,
+      cache: false,
+      processData: false,
+      async: true,
+      success: function () {
+      },
+  });
 });
 phaseImageInput.addEventListener("change", function () {
   let reader = new FileReader();
   phaseImage.style.display = `flex`;
   reader.addEventListener("load" ,() => {
-  path = reader.result; 
+  path = reader.result;
   stagePhase=drawStage('canvas-phase');
   layerPhase=drawLayer(stagePhase);
   drawImage(phaseImage,path,layerPhase,stagePhase);
@@ -170,16 +170,16 @@ phaseImageInput.addEventListener("change", function () {
   });
 reader.readAsDataURL(this.files[0]);
 let formData = new FormData();
-  // formData.append("file", this.files[0]);
-  // $.ajax({
-  //     type: "POST",
-  //     url: "/image/2",
-  //     data: formData,
-  //     contentType: false,
-  //     cache: false,
-  //     processData: false,
-  //     async: true,
-  //     success: function () {
-  //     },
-  // });
+  formData.append("file", this.files[0]);
+  $.ajax({
+      type: "POST",
+      url: "/image/2",
+      data: formData,
+      contentType: false,
+      cache: false,
+      processData: false,
+      async: true,
+      success: function () {
+      },
+  });
 });

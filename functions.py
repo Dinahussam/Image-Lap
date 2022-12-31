@@ -83,7 +83,7 @@ class Functions:
 
         return cutted_img
 
-    @staticmethod
+    # @staticmethod
     # Main Function(connection the functions together):
     def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phase, y2_phase):
         combined_image = 0
