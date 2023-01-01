@@ -127,6 +127,12 @@ body {
   position: relative;
 }
 
+.resultImage{
+  height: 100%;
+  width: 100%;
+  border-radius: 5%;
+}
+
 #result-phase,
 #result-mag,
 #result-icon {

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/static/css/main.css">
     <!-- Normalize CSS -->
     <script src="https://unpkg.com/konva@8.3.14/konva.min.js"></script>
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <!-- Cropper CSS -->
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
@@ -41,7 +41,7 @@
             style="display: none"
             />
         <label for="magnitudeImageInput" class="magnitudeImageBtn"><i class="fa fa-upload" id="mag-icon"></i></label>
-        
+
             <!-- <div class="mag-input">
                 <div class="input-labels">
                     <label for="magnitudeImageInput" class="magnitudeImageBtn">Choose Magnitude</label>
@@ -87,7 +87,7 @@
                     />
                     <img class="phase-image" id="phaseImage">
                 </div>
-                    
+
             </div> -->
         </div>
         <div class="out-labels">
@@ -110,10 +110,10 @@
             <!-- Result -->
             <div class="resultContainer">
                 <i class="material-icons" id="result-icon">compare</i>
-                <img class="phaseImage" />
+                <img class="resultImage" src=""/>
             </div>
         </div>
-    </div> 
+    </div>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
         <!-- Cropper JS -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js'></script>
