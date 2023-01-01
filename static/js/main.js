@@ -8,6 +8,8 @@ let mag_icon = document.querySelector("#mag-icon");
 let phase_icon = document.querySelector("#phase-icon");
 let iamge;
 let cir;
+let filterFlag=0;
+let shapeFlag=0;
 let rect;
 var path = "";
 let rectMag;
@@ -18,8 +20,6 @@ let rectFlag = 1;
 let circleFlag=0;
 let magStage;
 let phaseStage;
-let valuesMag=[];
-let valuesPhase=[];
 let rectArray1 = [];
 let rectArray2 = [];
 let cirArray1=[];
@@ -167,6 +167,8 @@ function drawRect(stage,layer){
   //     }  
   //   }
   // }
+  let valuesMag=[];
+  let valuesPhase=[];
   if(stage===magStage){
     if(rectArray1.length>0){
       rectMag.destroy();
@@ -210,11 +212,15 @@ function drawRect(stage,layer){
       if(stage===magStage){
         valuesMag.push(stage.getPointerPosition().x);
         valuesMag.push(stage.getPointerPosition().y);
+        valuesMag.push(shapeFlag);
+        valuesMag.push(filterFlag)
         send(1,valuesMag);
         console.log(valuesMag);
       }else{
         valuesPhase.push(stage.getPointerPosition().x);
         valuesPhase.push(stage.getPointerPosition().y);
+        valuesPhase.push(shapeFlag);
+        valuesPhase.push(filterFlag);
         send(2,valuesPhase);
         console.log(valuesPhase);
     }
@@ -294,12 +300,20 @@ function deleteData(){
 function dataCircle(){
   circleFlag=1;
   rectFlag=0;
+  shapeFlag=1;
   rectMag.destroy();
   rectPhase.destroy();
 }
 function dataRect(){
   circleFlag=0;
   rectFlag=1;
+  shapeFlag=0;
   cirMag.destroy();
   cirPhase.destroy();
+}
+function highFilter(){
+  filterFlag=1;
+}
+function lowFilter(){
+  filterFlag=0;
 }
