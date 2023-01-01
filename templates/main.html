@@ -1,79 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/main.css" />
     <!-- Normalize CSS -->
     <script src="https://unpkg.com/konva@8.3.14/konva.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
+    />
     <!-- Cropper CSS -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link
+      href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
     <!-- icons -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- Bootstrap CSS
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
     Bootstrap Font Icon CSS
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"> -->
-</head>
-<body>
+  </head>
+  <body>
+    <!-- The sidebar -->
+    <!-- <div class="topnav">
+        <button onclick="deleteData()" class="b1">d</button>
+        <button onclick="dataCircle()" class="b2">c</button>
+        <button onclick="dataRect()" class="b3">r</button>
+        <button onclick="highFilter()" class="b4">high <i class="fas fa-filter"></i></button>
+        <button onclick="lowFilter()" class="b4">low</button>
+    </div> -->
+    <!-- Container -->
     <div class="container">
-        <div class="input-labels">
-            <label class="magnitude-label">Choose Magnitude</label>
-            <label class="phase-label">Choose Phase</label>
-        </div>
+        <!-- <div class="input-labels">
+            <label class="in-label1">Choose Magnitude</label>
+            <label class="in-label2">Choose Phase</label>
+        </div> -->
+
         <!-- input -->
         <div class="input-container">
             <!-- magnitude -->
-            <div class="imageContainer" id="canvas-magnitude">
-                <img class="magnitude-image" id="magnitudeImage">
-            <!-- <i class="fas fa-upload"></i> -->
-            </div>
-            <input
-            id="magnitudeImageInput"
-            type="file"
-            accept="image/*"
-            style="display: none"
-            />
-        <label for="magnitudeImageInput" class="magnitudeImageBtn"><i class="fa fa-upload" id="mag-icon"></i></label>
+            <div class="input-column">
+              <div class="input-labels">
+                <label class="in-label1">Choose Magnitude</label>
+                <!-- <label class="in-label2">Choose Phase</label> -->
+              </div>
 
-            <!-- <div class="mag-input">
-                <div class="input-labels">
-                    <label for="magnitudeImageInput" class="magnitudeImageBtn">Choose Magnitude</label>
-                </div>
-                <div class="imageContainer">
-                    <input
-                        id="magnitudeImageInput"
-                        type="file"
-                        accept="image/*"
-                        style="display: none"
-                    />
-                    <img class="magnitude-image" id="magnitudeImage">
-                </div>
-            </div> -->
-        <!-- phase -->
-            <div class="imageContainer"id="canvas-phase">
-                <!-- <i class="fa fa-upload" id="phase-icon"></i> -->
-                <!-- <label for="phaseImageInput" class="phaseImageBtn"><i class="bi bi-cloud-arrow-up"></i></label> -->
-            <img class="phase-image"  id="phaseImage">
+              <div class="imageContainer" id="canvas-magnitude">
+                  <img class="magnitude-image" id="magnitudeImage">
+              </div>
+
+              <div class="mag-upload" id="upload">
+                  <input
+                  id="magnitudeImageInput"
+                  type="file"
+                  accept="image/*"
+                  style="display: none"
+                  />
+                  <label for="magnitudeImageInput" class="magnitudeImageBtn"><i class="fa fa-upload" id="mag-icon"></i></label>
+              </div>
             </div>
-            <input
-            id="phaseImageInput"
-            type="file"
-            accept="image/*"
-            style="display: none"
-            />
-        <label for="phaseImageInput" class="phaseImageBtn"><i class="fa fa-upload" id="mag-icon"></i></i></label>
-            <button onclick="deleteData()" class="b1">d</button>
-            <button onclick="dataCircle()" class="b2">c</button>
-            <button onclick="dataRect()" class="b3">r</button>
-            <button onclick="highFilter()" class="b4">high</button>
-            <button onclick="lowFilter()" class="b4">low</button>
+
+            <!-- phase -->
+            <div class="input-column">
+              <div class="input-labels">
+                <!-- <label class="in-label1">Choose Magnitude</label> -->
+                <label class="in-label2">Choose Phase</label>
+              </div>
+
+              <div class="imageContainer"id="canvas-phase">
+                  <img class="phase-image"  id="phaseImage">
+              </div>
+            
+              <div class="phase-upload" id="upload">
+                  <input
+                  id="phaseImageInput"
+                  type="file"
+                  accept="image/*"
+                  style="display: none"
+                  />
+                  <label for="phaseImageInput" class="phaseImageBtn"><i class="fa fa-upload" id="mag-icon"></i></i></label>
+              </div>
+            </div>
             <!-- <div class="phase-input">
                 <div class="input-labels">
                     <label for="phaseImageInput" class="phaseImageBtn">Choose Phase</label>
@@ -90,34 +107,64 @@
 
             </div> -->
         </div>
-        <div class="out-labels">
-            <label class="out-labels1">The Magnitude</label>
-            <label class="out-label2">The Phase</label>
-            <label class="out-label3">The Result</label>
+        <!-- bar -->
+        <div class="btn-cointainer">
+          <div class="btn-label">
+            <label for="" class="b2" id="btn-label">CIRCLE</label>
+            <label for="" class="b3" id="btn-label">RECTANGLE</label>
+            <label for="" class="b1" id="btn-label">DELETE</label>
+            <label for="" class="b4" id="btn-label">HIGH</label>
+            <label for="" class="b5" id="btn-label">LOW</label>
+          </div>
         </div>
+      
         <!-- Output -->
         <div class="output-container">
             <!-- magnitude -->
             <div class="resultContainer">
-                <i class="material-icons" id="result-mag">center_focus_weak</i>
-                <img class="magnitudeImage" />
+                <div class="out-labels">
+                    <label class="out-labels1">The Magnitude</label>
+                </div>
+                <div class="imageContainer">
+                  <div id="material-icons">
+                    <i class="material-icons" id="result-mag">center_focus_weak</i>
+                  </div>
+                  <img class="magnitudeImage" />
+                </div>
             </div>
+
             <!-- phase -->
             <div class="resultContainer">
-                <i class="material-icons" id="result-phase">center_focus_strong</i>
+              <div class="out-labels">
+                    <label class="out-label2">The Phase</label>
+              </div>
+              <div class="imageContainer">
+                <div id="material-icons">
+                  <i class="material-icons" id="result-phase">center_focus_strong</i>
+                </div>
                 <img class="phaseImage" />
+              </div>
             </div>
+
             <!-- Result -->
             <div class="resultContainer">
-                <i class="material-icons" id="result-icon">compare</i>
-                <img class="resultImage" src=""/>
+                <div class="out-labels">
+                    <label class="out-label3">The Result</label>
+                </div>
+                <div class="imageContainer">
+                  <div id="material-icons">
+                    <i class="material-icons" id="result-icon">compare</i>
+                  </div>
+                  <img class="resultImage" src=""/>
+                </div>
             </div>
         </div>
     </div>
+
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-        <!-- Cropper JS -->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js'></script>
+    <!-- Cropper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js"></script>
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+  </body>
 </html>
