@@ -147,7 +147,7 @@ function rectMove(stage) {
   rect.height(newHeight);
 }
 function drawRect(stage, layer) {
-  stage.on("mousedown ", (e) => mousedownHandler(e));
+  stage.on("mousedown ", mousedownHandler);
   stage.on("mousemove ", mousemoveHandler);
   stage.on("mouseup ", mouseupHandler);
   let valuesMag = [];
@@ -223,15 +223,19 @@ function drawRect(stage, layer) {
       valuesMag.push(stage.getPointerPosition().y);
       valuesMag.push(shapeFlag);
       valuesMag.push(filterFlag);
+      if(valuesMag.length===6){
       send(1, valuesMag);
       console.log(valuesMag);
+      }
     } else {
       valuesPhase.push(stage.getPointerPosition().x);
       valuesPhase.push(stage.getPointerPosition().y);
       valuesPhase.push(shapeFlag);
       valuesPhase.push(filterFlag);
+      if(valuesPhase.length===6){
       send(2, valuesPhase);
       console.log(valuesPhase);
+      }
     }
   }
   stage.add(layer);

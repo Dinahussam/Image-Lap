@@ -8,7 +8,7 @@ class ProcessingClass:
     def Resize(img):
         # set a new width and height in pixels
         new_width = 500
-        new_height = 320
+        new_height = 300
 
         # size
         size = (new_width, new_height)
@@ -45,6 +45,11 @@ class ProcessingClass:
     # High Pass Filter For Rectangle:
     @staticmethod
     def highPassFilterRect(img, x1, x2, y1, y2):
+        print(img)
+        print(x1)
+        print(x2)
+        print(y1)
+        print(y2)
         image = cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 0), -1)
         return image
     
