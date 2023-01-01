@@ -25,6 +25,9 @@ imagePath = {"magnitude": "", "phase": "", "combined": ""}
 def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phase, y2_phase, cut_flag, filter_flag):
     print("welcome from the main function here is the images")
     combined_image = 0
+    cutted_amplitude_img = 0
+    cutted_phase_img = 0
+          
     img1_path = ImageClass(path=img1)  # First Object
     img2_path = ImageClass(path=img2)  # Second Object
     image1 = img1_path.read()
