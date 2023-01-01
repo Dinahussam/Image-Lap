@@ -45,14 +45,14 @@ class ProcessingClass:
     # High Pass Filter For Rectangle:
     @staticmethod
     def highPassFilterRect(img, x1, x2, y1, y2):
-    image = cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 0), -1)
-    return image
+        image = cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 0), -1)
+        return image
     
     # High Pass Filter For Circle:
     @staticmethod
     def highPassFilterCir(img, x1, y1, radius):
-    image = cv2.circle(img, (x1, y1), radius, (0, 0, 0), -1)
-    return image
+        image = cv2.circle(img, (x1, y1), radius, (0, 0, 0), -1)
+        return image
 
     # Distance between two points:
     @staticmethod
