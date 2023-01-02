@@ -42,13 +42,14 @@ function send(id, values) {
     contentType: "application/json",
     dataType: "json",
     success: function (response) {
-      if (response["valid"] == true) {
+      { console.log("entered send action")
         let image = document.querySelector(".resultImage");
+        image.style.dsplay="flex"
         console.log("path is ");
         console.log(response["path"]);
         image.src = response["path"];
-      } else {
-        console.log("no data yet");
+        resultIcon=document.getElementById("result-icon")
+        resultIcon.style.display="none"
       }
     },
   });
@@ -372,6 +373,9 @@ b1.addEventListener("click", function () {
   for (i = 0; i < stagArray.length; i++) {
     stagArray[i].destroy();
   }
+  console.log("delete action ")
+  let result= document.querySelector(".resultImage");
+  result.style.display = `none`;
   magnitudeImageBtn.style.display = `flex`;
   phaseImageBtn.style.display = `flex`;
   magnitudeImageInput.addEventListener("change", () => {
@@ -392,12 +396,12 @@ b2.addEventListener("click", function () {
   circleFlag = 1;
   rectFlag = 0;
   shapeFlag = 1;
-  if(rectArray1.length>0){
-  rectMag.destroy();
-  }
-  if(rectArray2.length>0){
-  rectPhase.destroy();
-}
+//   if(rectArray1.length>0){
+//   rectMag.destroy();
+//   }
+//   if(rectArray2.length>0){
+//   rectPhase.destroy();
+// }
 });
 
 
@@ -405,8 +409,8 @@ b3.addEventListener("click", function () {
   circleFlag = 0;
   rectFlag = 1;
   shapeFlag = 0;
-  cirMag.destroy();
-  cirPhase.destroy();
+  // cirMag.destroy();
+  // cirPhase.destroy();
 });
 
 b4.addEventListener("click", function () {
