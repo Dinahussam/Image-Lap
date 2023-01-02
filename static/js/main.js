@@ -44,7 +44,7 @@ function send(id, values) {
     success: function (response) {
       { console.log("entered send action")
         let image = document.querySelector(".resultImage");
-        image.style.dsplay="flex"
+        image.style.display="flex"
         console.log("path is ");
         console.log(response["path"]);
         image.src = response["path"];
@@ -64,8 +64,8 @@ function drawStage(contain) {
   containerUsed = contain;
   var stage = new Konva.Stage({
     container: contain,
-    width: 500,
-    height: 300,
+    width: 3700,
+    height: 180,
   });
   return stage;
 }
@@ -277,8 +277,8 @@ function drawImage(img, path, layer) {
       image: img,
       x: 0,
       y: 0,
-      width: 500,
-      height: 300,
+      width: 380,
+      height: 200,
     });
     layer.add(theImg);
     layer.draw();
@@ -396,12 +396,12 @@ b2.addEventListener("click", function () {
   circleFlag = 1;
   rectFlag = 0;
   shapeFlag = 1;
-//   if(rectArray1.length>0){
-//   rectMag.destroy();
-//   }
-//   if(rectArray2.length>0){
-//   rectPhase.destroy();
-// }
+  if(rectArray1.length>0){
+  rectMag.destroy();
+  }
+  if(rectArray2.length>0){
+  rectPhase.destroy();
+}
 });
 
 
@@ -409,8 +409,8 @@ b3.addEventListener("click", function () {
   circleFlag = 0;
   rectFlag = 1;
   shapeFlag = 0;
-  // cirMag.destroy();
-  // cirPhase.destroy();
+  cirMag.destroy();
+  cirPhase.destroy();
 });
 
 b4.addEventListener("click", function () {

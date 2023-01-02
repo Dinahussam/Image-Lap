@@ -7,8 +7,8 @@ class ProcessingClass:
     @staticmethod
     def Resize(img):
         # set a new width and height in pixels
-        new_width = 500
-        new_height = 300
+        new_width = 380
+        new_height = 200
 
         # size
         size = (new_width, new_height)

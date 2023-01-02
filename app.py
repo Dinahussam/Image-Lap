@@ -7,6 +7,7 @@ from PIL import Image
 from IMAGE import ImageClass
 from PROCESSING import ProcessingClass
 import numpy as np
+import matplotlib.pyplot as plt
 UPLOAD_FOLDER = 'static/imgs'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 app = Flask(__name__, template_folder="templates")
@@ -53,9 +54,9 @@ def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phas
         image1_resized_fft)
     image2_amplitude, image2_phase = ImageClass.separateMagnitudePhase(
         image2_resized_fft)
-
-    cv2.imwrite('magn.png', image1_amplitude)
-    cv2.imwrite('phase.png', image2_phase)
+    image1_amplitude_log=np.log(image1_amplitude+1e-10)
+    plt.imsave('image1_amplitude_saved.png', np.log(image1_amplitude+1e-10), cmap='gray')
+    plt.imsave('image2_phase_saved.png', image2_phase, cmap='gray')
     if cut_flag == 0:  # Cut in a rectangle shape
         if filter_flag == 0:  # Low Pass Filter
 
@@ -63,8 +64,6 @@ def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phas
                 image2_phase, round(x1_phase), round(x2_phase), round(y1_phase), round(y2_phase))
             cutted_amplitude_img = ProcessingClass.crop_2d_img_rect(
                 image1_amplitude, round(x1_amp), round(x2_amp), round(y1_amp), round(y2_amp))
-            # cv2.imwrite('sama.png', np.abs(cutted_phase_img))
-            # cv2.imwrite('sam.png', np.abs(cutted_amplitude_img))
         if filter_flag == 1:  # High Pass Filter
             cutted_phase_img = ProcessingClass.highPassFilterRect(
                 image2_phase, round(x1_phase), round(x2_phase), round(y1_phase), round(y2_phase))
@@ -93,7 +92,7 @@ def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phas
           (1/(combined_image.max() - combined_image.min()) * 255)).astype('uint8')
     cv2.imwrite('comb.png', combined_image)
 
-    return combined_image
+    return combined_image,image2_phase,image1_amplitude_log
 
 
 def get_image_extension(name):
@@ -174,12 +173,12 @@ def data(id):
         magnitude = values['magnitude']
         phase = values["phase"]
         if (magnitude['y2'] != None) and (phase["y2"] != None):
-            combinedImage = Main(imagePath["magnitude"], imagePath["phase"], magnitude["x1"], magnitude["x2"],
+            combinedImage,greyImage1,greyImage2 = Main(imagePath["magnitude"], imagePath["phase"], magnitude["x1"], magnitude["x2"],
                                  magnitude["y1"], magnitude["y2"], phase["x1"], phase["x2"], phase["y1"], phase["y2"], shape, filter)
             global imageNumber
             # im = cv2.imread(combinedImage)
             imageExtension=str(imageNumber)+".png"
-            cv2.imwrite("static/imgs/combined"+imageExtension,combinedImage)
+            plt.imsave("static/imgs/combined"+imageExtension,greyImage1,cmap="gray")
             imageNumber += 1
             result = {"path": "../static/imgs/combined" +imageExtension}
             return jsonify(result)
