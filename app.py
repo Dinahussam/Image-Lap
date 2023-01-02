@@ -95,15 +95,23 @@ def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phas
     return combined_image,image2_phase,image1_amplitude_log
 
 
-def get_image_extension(name):
-    return '.'+name.split('.')[-1]
-
+def new_image_path(name, imageArray):
+    global imageNumber
+    imageExtension = name+str(imageNumber)+".png"
+    path="static/imgs/"+imageExtension
+    if os.path.exists(path):
+        os.remove(path)
+    imageNumber += 1
+    imageExtension = name+str(imageNumber)+".png"
+    path="static/imgs/"+imageExtension
+    return path
 
 def save_image(file, type):  # the type is choose between magnitude or phase
     name = type+'.'+file.filename.split('.')[-1]
     imagePath[type] = 'static/imgs/'+name
     file_path_mag = os.path.join(app.config['UPLOAD_FOLDER'], name)
     file.save(file_path_mag)
+    return file_path_mag
 
 
 def restart_values(key):
@@ -143,12 +151,18 @@ def image(id):
     if request.files['file']:
         if id == 1:
             file_mag = request.files['file']
-            save_image(file_mag, "magnitude")
+            path=save_image(file_mag, "magnitude")
             restart_values("magnitude")
         else:
             file_phase = request.files['file']
-            save_image(file_phase, "phase")
+            path=save_image(file_phase, "phase")
             restart_values("phase")
+    # image=ImageClass.read(path)
+    # image=ImageClass.grayScale(image)
+
+
+    # result={"id":id,"path":path}
+    # return jsonify({})
     return render_template("main.html")
 
 
@@ -173,17 +187,30 @@ def data(id):
         magnitude = values['magnitude']
         phase = values["phase"]
         if (magnitude['y2'] != None) and (phase["y2"] != None):
-            combinedImage,greyImage1,greyImage2 = Main(imagePath["magnitude"], imagePath["phase"], magnitude["x1"], magnitude["x2"],
+            combinedImage,grayPhase,grayMag = Main(imagePath["magnitude"], imagePath["phase"], magnitude["x1"], magnitude["x2"],
                                  magnitude["y1"], magnitude["y2"], phase["x1"], phase["x2"], phase["y1"], phase["y2"], shape, filter)
             global imageNumber
             # im = cv2.imread(combinedImage)
-            imageExtension=str(imageNumber)+".png"
-            plt.imsave("static/imgs/combined"+imageExtension,greyImage1,cmap="gray")
-            imageNumber += 1
-            result = {"path": "../static/imgs/combined" +imageExtension}
+            result={}
+            path=new_image_path("combined", combinedImage)
+            cv2.imwrite(path,combinedImage)
+            result["combinedPath"]="../"+path
+
+            path=new_image_path("greyMag",grayMag)
+            plt.imsave(path,grayMag,cmap="gray")
+            result["grayMag"]="../"+path
+
+            path=new_image_path("greyphase",grayPhase)
+            plt.imsave(path,grayPhase,cmap="gray")
+            result["grayPhase"]="../"+path
+
+            # result = {"compinedPath": "../" +path,"grayPath":}
+            # plt.imsave("static/imgs/combined"+imageExtension,greyImage1,cmap="gray")
+            # result = {"path": "../static/imgs/combined" +imageExtension}
             return jsonify(result)
     return redirect('/')
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+

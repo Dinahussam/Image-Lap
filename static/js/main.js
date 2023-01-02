@@ -4,6 +4,10 @@ let magnitudeImage = document.querySelector("#magnitudeImage");
 let magnitudeImageBtn = document.querySelector(".magnitudeImageBtn");
 let phaseImageBtn = document.querySelector(".phaseImageBtn");
 let phaseImage = document.querySelector("#phaseImage");
+let phaseGray=document.querySelector(".phaseImageGray")
+let magnitudeGray=document.querySelector(".magnitudeImageGray")
+
+
 let mag_icon = document.querySelector("#mag-icon");
 let phase_icon = document.querySelector("#phase-icon");
 let b1 = document.querySelector(".b1");
@@ -45,9 +49,9 @@ function send(id, values) {
       { console.log("entered send action")
         let image = document.querySelector(".resultImage");
         image.style.display="flex"
-        console.log("path is ");
-        console.log(response["path"]);
-        image.src = response["path"];
+        magnitudeGray.src=response.grayMag
+        phaseGray.src=response.grayPhase
+        image.src = response["combinedPath"];
         resultIcon=document.getElementById("result-icon")
         resultIcon.style.display="none"
       }

@@ -149,3 +149,19 @@ body {
 .out-labels:hover {
   color: #c5b8ecc6;
 }
+
+.resultImage {
+  height: 100%;
+  width: 100%;
+  border-radius: 5%;
+}
+.magnitudeImageGray {
+  height: 100%;
+  width: 100%;
+  border-radius: 5%;
+}
+.phaseImageGray {
+  height: 100%;
+  width: 100%;
+  border-radius: 5%;
+}
