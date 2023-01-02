@@ -82,8 +82,8 @@ body {
 .btn-cointainer {
   align-items: center;
   justify-content: center;
-  height: 5%;
-  padding-top: 0.23%;
+  /* height: 5%; */
+  padding: 1.23px 0%;
   margin-bottom: 1%;
   background-color: #b3e8f6;
 }
@@ -95,7 +95,7 @@ body {
   /* height: 2%; */
   background-color: #1b142d;
   /* padding-top: -0.2%; */
-  padding-bottom: 0.1%;
+  /* padding-bottom: 0.1%; */
   /* padding: 10px; */
 }
 .btn-label:hover {
@@ -133,10 +133,13 @@ body {
 }
 
 #material-icons {
+  height: 100%;
+  width: 100%;
+  display: flex;
   align-items: center;
-  justify-items: center;
+  justify-content: center;
   text-align: center;
-  padding-top: 20%;
+  /* padding-top: 20%; */
   color: #917fc6c6;
 }
 
