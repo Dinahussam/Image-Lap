@@ -187,8 +187,8 @@ function drawRect(stage, layer) {
         cirMag.destroy();
         valuesMag = [];
       }
-      valuesMag.push(stage.getPointerPosition().x);
-      valuesMag.push(stage.getPointerPosition().y);
+      // valuesMag.push(stage.getPointerPosition().x);
+      // valuesMag.push(stage.getPointerPosition().y);
     } else {
       if (rectArray2.length > 0) {
         rectPhase.destroy();
@@ -198,8 +198,8 @@ function drawRect(stage, layer) {
         cirPhase.destroy();
         valuesPhase = [];
       }
-      valuesPhase.push(stage.getPointerPosition().x);
-      valuesPhase.push(stage.getPointerPosition().y);
+      // valuesPhase.push(stage.getPointerPosition().x);
+      // valuesPhase.push(stage.getPointerPosition().y);
     }
     isNowDrawing = true;
     if (circleFlag === 1) {
@@ -219,8 +219,18 @@ function drawRect(stage, layer) {
   function mouseupHandler() {
     isNowDrawing = false;
     if (stage === magStage) {
-      valuesMag.push(stage.getPointerPosition().x);
-      valuesMag.push(stage.getPointerPosition().y);
+      if(circleFlag===1){
+        console.log(stage.getPointerPosition().x)
+        valuesMag.push(cirMag.x());
+        valuesMag.push(cirMag.y());
+        valuesMag.push(stage.getPointerPosition().x);
+        valuesMag.push(stage.getPointerPosition().y);
+      } else{
+      valuesMag.push(rectMag.x());
+      valuesMag.push(rectMag.y());
+      valuesMag.push(rectMag.x()+rectMag.width());
+      valuesMag.push(rectMag.y()+rectMag.height());
+      }
       valuesMag.push(shapeFlag);
       valuesMag.push(filterFlag);
       if(valuesMag.length===6){
@@ -228,13 +238,22 @@ function drawRect(stage, layer) {
       console.log(valuesMag);
       }
     } else {
-      valuesPhase.push(stage.getPointerPosition().x);
-      valuesPhase.push(stage.getPointerPosition().y);
+      if(circleFlag===1){
+        console.log(stage.getPointerPosition().x)
+        valuesPhase.push(cirPhase.x());
+        valuesPhase.push(cirPhase.y());
+        valuesPhase.push(stage.getPointerPosition().x);
+        valuesPhase.push(stage.getPointerPosition().y);
+      } else{
+      valuesPhase.push(rectPhase.x());
+      valuesPhase.push(rectPhase.y());
+      valuesPhase.push(rectPhase.x()+rectPhase.width());
+      valuesPhase.push(rectPhase.y()+rectPhase.height());
+      }
       valuesPhase.push(shapeFlag);
       valuesPhase.push(filterFlag);
       if(valuesPhase.length===6){
       send(2, valuesPhase);
-      console.log(valuesPhase);
       }
     }
   }
@@ -321,8 +340,12 @@ function dataCircle() {
   circleFlag = 1;
   rectFlag = 0;
   shapeFlag = 1;
+  if(rectArray1.length>0){
   rectMag.destroy();
+  }
+  if(rectArray2.length>0){
   rectPhase.destroy();
+  }
 }
 function dataRect() {
   circleFlag = 0;
