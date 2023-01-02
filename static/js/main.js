@@ -6,6 +6,11 @@ let phaseImageBtn = document.querySelector(".phaseImageBtn");
 let phaseImage = document.querySelector("#phaseImage");
 let mag_icon = document.querySelector("#mag-icon");
 let phase_icon = document.querySelector("#phase-icon");
+let b1 = document.querySelector(".b1");
+let b2 = document.querySelector(".b2");
+let b3 = document.querySelector(".b3");
+let b4 = document.querySelector(".b4");
+let b5 = document.querySelector(".b5");
 let iamge;
 let cir;
 let filterFlag = 0;
@@ -27,6 +32,7 @@ let cirArray2 = [];
 let stagArray = [];
 let isNowDrawing = false;
 var path = "";
+
 function send(id, values) {
   console.log(id);
   $.ajax({
@@ -47,10 +53,12 @@ function send(id, values) {
     },
   });
 }
+
 function upload_image_action(image, button) {
   image.style.display = `flex`;
   button.style.display = `none`;
 }
+
 function drawStage(contain) {
   containerUsed = contain;
   var stage = new Konva.Stage({
@@ -60,12 +68,14 @@ function drawStage(contain) {
   });
   return stage;
 }
+
 function drawLayer(stage) {
   var layer = new Konva.Layer();
   stage.add(layer);
   stage.draw();
   return layer;
 }
+
 function circleDown(stage, layer) {
   cir = new Konva.Circle({
     x: stage.getPointerPosition().x,
@@ -147,7 +157,7 @@ function rectMove(stage) {
   rect.height(newHeight);
 }
 function drawRect(stage, layer) {
-  stage.on("mousedown ", mousedownHandler);
+  stage.on("mousedown ", (e) => mousedownHandler(e));
   stage.on("mousemove ", mousemoveHandler);
   stage.on("mouseup ", mouseupHandler);
   let valuesMag = [];
@@ -233,9 +243,9 @@ function drawRect(stage, layer) {
       }
       valuesMag.push(shapeFlag);
       valuesMag.push(filterFlag);
-      if(valuesMag.length===6){
-      send(1, valuesMag);
-      console.log(valuesMag);
+      if (valuesMag.length === 6) {
+        send(1, valuesMag);
+        console.log(valuesMag);
       }
     } else {
       if(circleFlag===1){
@@ -285,6 +295,7 @@ magnitudeImageInput.addEventListener("change", () => {
 phaseImageInput.addEventListener("change", () => {
   upload(phaseImage, 2, "canvas-phase", phaseImageBtn, phaseImageInput);
 });
+
 function upload(uploadImage, number, container, uploadButton, input) {
   reader = new FileReader();
   uploadImage.style.display = `flex`;
@@ -317,7 +328,47 @@ function upload(uploadImage, number, container, uploadButton, input) {
     success: function () {},
   });
 }
-function deleteData() {
+// function deleteData() {
+//   for (i = 0; i < stagArray.length; i++) {
+//     stagArray[i].destroy();
+//   }
+//   magnitudeImageBtn.style.display = `flex`;
+//   phaseImageBtn.style.display = `flex`;
+//   magnitudeImageInput.addEventListener("change", () => {
+//     upload(
+//       magnitudeImage,
+//       1,
+//       "canvas-magnitude",
+//       magnitudeImageBtn,
+//       magnitudeImageInput
+//     );
+//   });
+//   phaseImageInput.addEventListener("change", () => {
+//     upload(phaseImage, 2, "canvas-phase", phaseImageBtn, phaseImageInput);
+//   });
+// }
+// function dataCircle() {
+//   circleFlag = 1;
+//   rectFlag = 0;
+//   shapeFlag = 1;
+//   rectMag.destroy();
+//   rectPhase.destroy();
+// }
+// function dataRect() {
+//   circleFlag = 0;
+//   rectFlag = 1;
+//   shapeFlag = 0;
+//   cirMag.destroy();
+//   cirPhase.destroy();
+// }
+// function highFilter() {
+//   filterFlag = 1;
+// }
+// function lowFilter() {
+//   filterFlag = 0;
+// }
+
+b1.addEventListener("click", function () {
   for (i = 0; i < stagArray.length; i++) {
     stagArray[i].destroy();
   }
@@ -335,8 +386,9 @@ function deleteData() {
   phaseImageInput.addEventListener("change", () => {
     upload(phaseImage, 2, "canvas-phase", phaseImageBtn, phaseImageInput);
   });
-}
-function dataCircle() {
+});
+
+b2.addEventListener("click", function () {
   circleFlag = 1;
   rectFlag = 0;
   shapeFlag = 1;
@@ -345,18 +397,22 @@ function dataCircle() {
   }
   if(rectArray2.length>0){
   rectPhase.destroy();
-  }
 }
-function dataRect() {
+});
+
+
+b3.addEventListener("click", function () {
   circleFlag = 0;
   rectFlag = 1;
   shapeFlag = 0;
   cirMag.destroy();
   cirPhase.destroy();
-}
-function highFilter() {
+});
+
+b4.addEventListener("click", function () {
   filterFlag = 1;
-}
-function lowFilter() {
+});
+
+b5.addEventListener("click", function () {
   filterFlag = 0;
-}
+});
