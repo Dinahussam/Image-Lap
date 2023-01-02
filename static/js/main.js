@@ -4,10 +4,11 @@ let magnitudeImage = document.querySelector("#magnitudeImage");
 let magnitudeImageBtn = document.querySelector(".magnitudeImageBtn");
 let phaseImageBtn = document.querySelector(".phaseImageBtn");
 let phaseImage = document.querySelector("#phaseImage");
-let phaseGray=document.querySelector(".phaseImageGray")
-let magnitudeGray=document.querySelector(".magnitudeImageGray")
-
-
+let phaseGray = document.querySelector(".phaseImageGray");
+let magnitudeGray = document.querySelector(".magnitudeImageGray");
+let resultIcon = document.getElementById("result-icon");
+let resultmag = document.getElementById("result-mag");
+let resultphase = document.getElementById("result-phase");
 let mag_icon = document.querySelector("#mag-icon");
 let phase_icon = document.querySelector("#phase-icon");
 let b1 = document.querySelector(".b1");
@@ -46,14 +47,18 @@ function send(id, values) {
     contentType: "application/json",
     dataType: "json",
     success: function (response) {
-      { console.log("entered send action")
+      {
+        console.log("entered send action");
         let image = document.querySelector(".resultImage");
-        image.style.display="flex"
-        magnitudeGray.src=response.grayMag
-        phaseGray.src=response.grayPhase
+        image.style.display = "flex";
+        phaseGray.style.display = "flex";
+        magnitudeGray.style.display = "flex";
+        magnitudeGray.src = response.grayMag;
+        phaseGray.src = response.grayPhase;
         image.src = response["combinedPath"];
-        resultIcon=document.getElementById("result-icon")
-        resultIcon.style.display="none"
+        resultIcon.style.display = "none";
+        resultmag.style.display = "none";
+        resultphase.style.display = "none";
       }
     },
   });
@@ -68,8 +73,8 @@ function drawStage(contain) {
   containerUsed = contain;
   var stage = new Konva.Stage({
     container: contain,
-    width: 3700,
-    height: 180,
+    width: 350,
+    height: 168,
   });
   return stage;
 }
@@ -99,21 +104,8 @@ function circleDown(stage, layer) {
     layer.add(cirPhase);
     cirArray2.push(cirPhase);
   }
-  // if(containerUsed==="canvas-magnitude"){
-  //   cirArray1.push(cir);
-  //   }else{
-  //     cirArray2.push(cir);
-  //   }
+
   layer.draw();
-  // tr1 = new Konva.Transformer({
-  //   nodes: [cir],
-  //   // ignore stroke in size calculations
-  //   ignoreStroke: true,
-  //   // manually adjust size of transformer
-  //   padding: 5,
-  // });
-  // layer.add(tr1);
-  // layer.draw();
 }
 function circleMove(stage) {
   const rise = Math.pow(stage.getPointerPosition().y - cir.y(), 2);
@@ -140,19 +132,7 @@ function rectDown(stage, layer) {
     layer.add(rectPhase);
     rectArray2.push(rectPhase);
   }
-  // if(containerUsed==="canvas-magnitude"){
-  // rectArray1.push(rect);
-  // }else{
-  //   rectArray2.push(rect);
-  // }
-  // tr1 = new Konva.Transformer({
-  //   nodes: [rect],
-  //   // ignore stroke in size calculations
-  //   ignoreStroke: true,
-  //   // manually adjust size of transformer
-  //   padding: 5,
-  // });
-  // layer.add(tr1);
+
   layer.draw();
 }
 function rectMove(stage) {
@@ -168,31 +148,6 @@ function drawRect(stage, layer) {
   let valuesMag = [];
   let valuesPhase = [];
   function mousedownHandler() {
-    //   if(containerUsed==="canvas-magnitude"){
-    //   if(rectArray1.length>0 ){
-    //     isNowDrawing=false;
-    //     values=[];
-    //   }else{
-    //     isNowDrawing = true;
-    //     if(circleFlag===1){
-    //     circleDown(stage,layer);
-    //     }else{
-    //     rectDown(stage,layer);
-    //     }
-    //   }
-    // }else{
-    //   if(rectArray2.length>0){
-    //     isNowDrawing=false;
-    //     values=[];
-    //   }else{
-    //     isNowDrawing = true;
-    //     if(circleFlag===1){
-    //     circleDown(stage,layer);
-    //     }else{
-    //     rectDown(stage,layer);
-    //     }
-    //   }
-    // }
     if (stage === magStage) {
       if (rectArray1.length > 0) {
         rectMag.destroy();
@@ -202,8 +157,6 @@ function drawRect(stage, layer) {
         cirMag.destroy();
         valuesMag = [];
       }
-      // valuesMag.push(stage.getPointerPosition().x);
-      // valuesMag.push(stage.getPointerPosition().y);
     } else {
       if (rectArray2.length > 0) {
         rectPhase.destroy();
@@ -213,8 +166,6 @@ function drawRect(stage, layer) {
         cirPhase.destroy();
         valuesPhase = [];
       }
-      // valuesPhase.push(stage.getPointerPosition().x);
-      // valuesPhase.push(stage.getPointerPosition().y);
     }
     isNowDrawing = true;
     if (circleFlag === 1) {
@@ -234,17 +185,17 @@ function drawRect(stage, layer) {
   function mouseupHandler() {
     isNowDrawing = false;
     if (stage === magStage) {
-      if(circleFlag===1){
-        console.log(stage.getPointerPosition().x)
+      if (circleFlag === 1) {
+        console.log(stage.getPointerPosition().x);
         valuesMag.push(cirMag.x());
         valuesMag.push(cirMag.y());
         valuesMag.push(stage.getPointerPosition().x);
         valuesMag.push(stage.getPointerPosition().y);
-      } else{
-      valuesMag.push(rectMag.x());
-      valuesMag.push(rectMag.y());
-      valuesMag.push(rectMag.x()+rectMag.width());
-      valuesMag.push(rectMag.y()+rectMag.height());
+      } else {
+        valuesMag.push(rectMag.x());
+        valuesMag.push(rectMag.y());
+        valuesMag.push(rectMag.x() + rectMag.width());
+        valuesMag.push(rectMag.y() + rectMag.height());
       }
       valuesMag.push(shapeFlag);
       valuesMag.push(filterFlag);
@@ -253,22 +204,22 @@ function drawRect(stage, layer) {
         console.log(valuesMag);
       }
     } else {
-      if(circleFlag===1){
-        console.log(stage.getPointerPosition().x)
+      if (circleFlag === 1) {
+        console.log(stage.getPointerPosition().x);
         valuesPhase.push(cirPhase.x());
         valuesPhase.push(cirPhase.y());
         valuesPhase.push(stage.getPointerPosition().x);
         valuesPhase.push(stage.getPointerPosition().y);
-      } else{
-      valuesPhase.push(rectPhase.x());
-      valuesPhase.push(rectPhase.y());
-      valuesPhase.push(rectPhase.x()+rectPhase.width());
-      valuesPhase.push(rectPhase.y()+rectPhase.height());
+      } else {
+        valuesPhase.push(rectPhase.x());
+        valuesPhase.push(rectPhase.y());
+        valuesPhase.push(rectPhase.x() + rectPhase.width());
+        valuesPhase.push(rectPhase.y() + rectPhase.height());
       }
       valuesPhase.push(shapeFlag);
       valuesPhase.push(filterFlag);
-      if(valuesPhase.length===6){
-      send(2, valuesPhase);
+      if (valuesPhase.length === 6) {
+        send(2, valuesPhase);
       }
     }
   }
@@ -279,10 +230,10 @@ function drawImage(img, path, layer) {
   img.onload = function () {
     theImg = new Konva.Image({
       image: img,
-      x: 0,
-      y: 0,
-      width: 380,
-      height: 200,
+      x: 2,
+      y: 12,
+      width: 350,
+      height: 168,
     });
     layer.add(theImg);
     layer.draw();
@@ -333,55 +284,22 @@ function upload(uploadImage, number, container, uploadButton, input) {
     success: function () {},
   });
 }
-// function deleteData() {
-//   for (i = 0; i < stagArray.length; i++) {
-//     stagArray[i].destroy();
-//   }
-//   magnitudeImageBtn.style.display = `flex`;
-//   phaseImageBtn.style.display = `flex`;
-//   magnitudeImageInput.addEventListener("change", () => {
-//     upload(
-//       magnitudeImage,
-//       1,
-//       "canvas-magnitude",
-//       magnitudeImageBtn,
-//       magnitudeImageInput
-//     );
-//   });
-//   phaseImageInput.addEventListener("change", () => {
-//     upload(phaseImage, 2, "canvas-phase", phaseImageBtn, phaseImageInput);
-//   });
-// }
-// function dataCircle() {
-//   circleFlag = 1;
-//   rectFlag = 0;
-//   shapeFlag = 1;
-//   rectMag.destroy();
-//   rectPhase.destroy();
-// }
-// function dataRect() {
-//   circleFlag = 0;
-//   rectFlag = 1;
-//   shapeFlag = 0;
-//   cirMag.destroy();
-//   cirPhase.destroy();
-// }
-// function highFilter() {
-//   filterFlag = 1;
-// }
-// function lowFilter() {
-//   filterFlag = 0;
-// }
 
 b1.addEventListener("click", function () {
   for (i = 0; i < stagArray.length; i++) {
     stagArray[i].destroy();
   }
-  console.log("delete action ")
-  let result= document.querySelector(".resultImage");
+  console.log("delete action ");
+  let result = document.querySelector(".resultImage");
   result.style.display = `none`;
+  // image.style.display = "flex";
+  phaseGray.style.display = "flex";
+  magnitudeGray.style.display = "flex";
   magnitudeImageBtn.style.display = `flex`;
   phaseImageBtn.style.display = `flex`;
+  resultIcon.style.display = `flex`;
+  resultmag.style.display = `flex`;
+  resultphase.style.display = `flex`;
   magnitudeImageInput.addEventListener("change", () => {
     upload(
       magnitudeImage,
@@ -400,14 +318,13 @@ b2.addEventListener("click", function () {
   circleFlag = 1;
   rectFlag = 0;
   shapeFlag = 1;
-  if(rectArray1.length>0){
-  rectMag.destroy();
+  if (rectArray1.length > 0) {
+    rectMag.destroy();
   }
-  if(rectArray2.length>0){
-  rectPhase.destroy();
-}
+  if (rectArray2.length > 0) {
+    rectPhase.destroy();
+  }
 });
-
 
 b3.addEventListener("click", function () {
   circleFlag = 0;

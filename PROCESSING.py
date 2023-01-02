@@ -7,8 +7,8 @@ class ProcessingClass:
     @staticmethod
     def Resize(img):
         # set a new width and height in pixels
-        new_width = 380
-        new_height = 200
+        new_width = 350
+        new_height = 168
 
         # size
         size = (new_width, new_height)
@@ -50,14 +50,14 @@ class ProcessingClass:
         print(x2)
         print(y1)
         print(y2)
-        image = cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 0), -1)
-        return image
+        image = cv2.rectangle(np.log(img.tolist()), (x1, y1), (x2, y2), (0, 0, 0), -1)
+        return np.asarray(image)
     
     # High Pass Filter For Circle:
     @staticmethod
     def highPassFilterCir(img, x1, y1, radius):
-        image = cv2.circle(img, (x1, y1), radius, (0, 0, 0), -1)
-        return image
+        image = cv2.circle(np.log(img.tolist()), (x1, y1), radius, (0, 0, 0), -1)
+        return np.asarray(image)
 
     # Distance between two points:
     @staticmethod

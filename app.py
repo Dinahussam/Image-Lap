@@ -130,19 +130,7 @@ def set_values(key, list):
 
 @app.route('/', methods=['GET'])
 def index():
-    # print("here")
-    # im=cv2.imread(imagePath["magnitude"])/////
-    # im = cv2.imshow("image", imagePath["magnitude"])
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
-    # im = Image.fromarray(combinedImage)
-    # cv2.imwrite("static/imgs/combined.png",im)/////
-    # get_image_extension(imagePath["magnitude"]),im)
-    # global changeOutput/////
-    # if changeOutput:
-    #     result={"path":"static/imgs/combined.png","valid":True}
-    #     return jsonify(result)
-    #     changeOutput=False
+   
     return render_template('main.html')
 
 
@@ -157,12 +145,7 @@ def image(id):
             file_phase = request.files['file']
             path=save_image(file_phase, "phase")
             restart_values("phase")
-    # image=ImageClass.read(path)
-    # image=ImageClass.grayScale(image)
-
-
-    # result={"id":id,"path":path}
-    # return jsonify({})
+ 
     return render_template("main.html")
 
 
@@ -204,9 +187,6 @@ def data(id):
             plt.imsave(path,grayPhase,cmap="gray")
             result["grayPhase"]="../"+path
 
-            # result = {"compinedPath": "../" +path,"grayPath":}
-            # plt.imsave("static/imgs/combined"+imageExtension,greyImage1,cmap="gray")
-            # result = {"path": "../static/imgs/combined" +imageExtension}
             return jsonify(result)
     return redirect('/')
 
