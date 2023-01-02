@@ -16,35 +16,37 @@ body {
 }
 
 .container {
-  /* display: flex; */
-  margin-top: 3.5%;
+  margin-top: 3.1%;
   align-items: center;
-  /* text-align: center; */
   justify-content: center;
   height: 95%;
-  width: 85%;
-  background-color: rgba(255, 255, 255, 0.293);
+  width: 91%;
+  background-color: transparent;
 }
 /*************************** Input *******************************/
 .input-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1%;
-  height: 47.5%;
-  background-color: rgba(228, 64, 64, 0.293);
+  gap: 2%;
+  height: 43%;
+  background-color: transparent;
+  padding-bottom: 1%;
 }
 
 .input-column {
   align-items: center;
   justify-content: center;
-  width: 30%;
-  height: 97%;
-  background-color: black;
+  width: 25%;
+  height: 95%;
+  margin-bottom: 1%;
+  background-color: transparent;
 }
 
 .input-labels {
+  color: #b3e8f6;
   text-align: center;
+  margin-bottom: 2%;
 }
 
 .imageContainer {
@@ -53,11 +55,27 @@ body {
   justify-items: center;
   /* width: 29%; */
   height: 80%;
-  background-color: rgba(222, 202, 202, 0.293);
+  border-radius: 5%;
+  border-style: dashed;
+  border-color: #b3e8f6;
+  background-color: transparent;
 }
 
 #upload {
   text-align: center;
+}
+
+.phaseImageBtn,
+.magnitudeImageBtn {
+  color: #917fc6c6;
+}
+
+.in-label1:hover {
+  color: #c5b8ecc6;
+}
+
+.in-label2:hover {
+  color: #c5b8ecc6;
 }
 
 /*************************** BAR *******************************/
@@ -65,17 +83,26 @@ body {
   align-items: center;
   justify-content: center;
   height: 5%;
-  padding-top: 0.5%;
-  background-color: blueviolet;
+  padding-top: 0.23%;
+  margin-bottom: 1%;
+  background-color: #b3e8f6;
 }
 .btn-label {
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: aquamarine;
-  background-color: black;
+  color: #b3e8f6;
+  /* height: 2%; */
+  background-color: #1b142d;
+  /* padding-top: -0.2%; */
+  padding-bottom: 0.1%;
+  /* padding: 10px; */
+}
+.btn-label:hover {
+  color: #c5b8ecc6;
 }
 #btn-label {
+  font-size: 17px;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -86,21 +113,23 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1%;
+  gap: 2%;
   height: 47.5%;
-  background-color: rgba(9, 160, 44, 0.293);
+  background-color: transparent;
 }
 
 .resultContainer {
   align-items: center;
   justify-content: center;
-  width: 32%;
-  height: 83%;
-  background-color: black;
+  width: 30%;
+  height: 99%;
+  background-color: transparent;
 }
 
 .out-labels {
+  color: #b3e8f6;
   text-align: center;
+  padding-bottom: 2%;
 }
 
 #material-icons {
@@ -108,4 +137,9 @@ body {
   justify-items: center;
   text-align: center;
   padding-top: 20%;
+  color: #917fc6c6;
+}
+
+.out-labels:hover {
+  color: #c5b8ecc6;
 }
