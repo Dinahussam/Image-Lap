@@ -11,11 +11,11 @@ let resultmag = document.getElementById("result-mag");
 let resultphase = document.getElementById("result-phase");
 let mag_icon = document.querySelector("#mag-icon");
 let phase_icon = document.querySelector("#phase-icon");
-let b1 = document.querySelector(".b1");
-let b2 = document.querySelector(".b2");
-let b3 = document.querySelector(".b3");
-let b4 = document.querySelector(".b4");
-let b5 = document.querySelector(".b5");
+let btn1 = document.querySelector(".btn1");
+let btn2 = document.querySelector(".btn2");
+let btn3 = document.querySelector(".btn3");
+let btn4 = document.querySelector(".btn4");
+let btn5 = document.querySelector(".btn5");
 let iamge;
 let cir;
 let filterFlag = 0;
@@ -186,40 +186,50 @@ function drawRect(stage, layer) {
     isNowDrawing = false;
     if (stage === magStage) {
       if (circleFlag === 1) {
-        console.log(stage.getPointerPosition().x);
-        valuesMag.push(cirMag.x());
-        valuesMag.push(cirMag.y());
-        valuesMag.push(stage.getPointerPosition().x);
-        valuesMag.push(stage.getPointerPosition().y);
+        valuesMag = addData(
+          cirMag.x(),
+          cirMag.y(),
+          stage.getPointerPosition().x,
+          stage.getPointerPosition().y,
+          shapeFlag,
+          filterFlag
+        );
       } else {
-        valuesMag.push(rectMag.x());
-        valuesMag.push(rectMag.y());
-        valuesMag.push(rectMag.x() + rectMag.width());
-        valuesMag.push(rectMag.y() + rectMag.height());
+        valuesMag = addData(
+          rectMag.x(),
+          rectMag.y(),
+          rectMag.x() + rectMag.width(),
+          rectMag.y() + rectMag.height(),
+          shapeFlag,
+          filterFlag
+        );
       }
-      valuesMag.push(shapeFlag);
-      valuesMag.push(filterFlag);
       if (valuesMag.length === 6) {
         send(1, valuesMag);
-        console.log(valuesMag);
       }
     } else {
       if (circleFlag === 1) {
-        console.log(stage.getPointerPosition().x);
-        valuesPhase.push(cirPhase.x());
-        valuesPhase.push(cirPhase.y());
-        valuesPhase.push(stage.getPointerPosition().x);
-        valuesPhase.push(stage.getPointerPosition().y);
+        valuesPhase = addData(
+          cirPhase.x(),
+          cirPhase.y(),
+          stage.getPointerPosition().x,
+          stage.getPointerPosition().y,
+          shapeFlag,
+          filterFlag
+        );
       } else {
-        valuesPhase.push(rectPhase.x());
-        valuesPhase.push(rectPhase.y());
-        valuesPhase.push(rectPhase.x() + rectPhase.width());
-        valuesPhase.push(rectPhase.y() + rectPhase.height());
+        valuesPhase = addData(
+          rectPhase.x(),
+          rectPhase.y(),
+          rectPhase.x() + rectPhase.width(),
+          rectPhase.y() + rectPhase.height(),
+          shapeFlag,
+          filterFlag
+        );
       }
-      valuesPhase.push(shapeFlag);
-      valuesPhase.push(filterFlag);
       if (valuesPhase.length === 6) {
         send(2, valuesPhase);
+        console.log(valuesPhase);
       }
     }
   }
@@ -239,18 +249,6 @@ function drawImage(img, path, layer) {
     layer.draw();
   };
 }
-magnitudeImageInput.addEventListener("change", () => {
-  upload(
-    magnitudeImage,
-    "magnitude",
-    "canvas-magnitude",
-    magnitudeImageBtn,
-    magnitudeImageInput
-  );
-});
-phaseImageInput.addEventListener("change", () => {
-  upload(phaseImage, "phase", "canvas-phase", phaseImageBtn, phaseImageInput);
-});
 
 function upload(uploadImage, imageType, container, uploadButton, input) {
   reader = new FileReader();
@@ -272,7 +270,7 @@ function upload(uploadImage, imageType, container, uploadButton, input) {
   reader.readAsDataURL(input.files[0]);
 
   let formData = new FormData();
-  formData.append("type",imageType)
+  formData.append("type", imageType);
   formData.append("file", input.files[0]);
 
   $.ajax({
@@ -287,16 +285,28 @@ function upload(uploadImage, imageType, container, uploadButton, input) {
   });
 }
 
-b1.addEventListener("click", function () {
+magnitudeImageInput.addEventListener("change", () => {
+  upload(
+    magnitudeImage,
+    "magnitude",
+    "canvas-magnitude",
+    magnitudeImageBtn,
+    magnitudeImageInput
+  );
+});
+phaseImageInput.addEventListener("change", () => {
+  upload(phaseImage, "phase", "canvas-phase", phaseImageBtn, phaseImageInput);
+});
+
+btn1.addEventListener("click", function () {
   for (i = 0; i < stagArray.length; i++) {
     stagArray[i].destroy();
   }
   console.log("delete action ");
   let result = document.querySelector(".resultImage");
   result.style.display = `none`;
-  // image.style.display = "flex";
-  phaseGray.style.display = "flex";
-  magnitudeGray.style.display = "flex";
+  phaseGray.style.display = "none";
+  magnitudeGray.style.display = "none";
   magnitudeImageBtn.style.display = `flex`;
   phaseImageBtn.style.display = `flex`;
   resultIcon.style.display = `flex`;
@@ -316,7 +326,7 @@ b1.addEventListener("click", function () {
   });
 });
 
-b2.addEventListener("click", function () {
+btn2.addEventListener("click", function () {
   circleFlag = 1;
   rectFlag = 0;
   shapeFlag = 1;
@@ -328,7 +338,7 @@ b2.addEventListener("click", function () {
   }
 });
 
-b3.addEventListener("click", function () {
+btn3.addEventListener("click", function () {
   circleFlag = 0;
   rectFlag = 1;
   shapeFlag = 0;
@@ -336,10 +346,22 @@ b3.addEventListener("click", function () {
   cirPhase.destroy();
 });
 
-b4.addEventListener("click", function () {
+btn4.addEventListener("click", function () {
   filterFlag = 1;
 });
 
-b5.addEventListener("click", function () {
+btn5.addEventListener("click", function () {
   filterFlag = 0;
 });
+Footer;
+
+function addData(x1, y1, x2, y2, shape, place) {
+  var value = [];
+  value.push(x1);
+  value.push(y1);
+  value.push(x2);
+  value.push(y2);
+  value.push(shape);
+  value.push(place);
+  return value;
+}
