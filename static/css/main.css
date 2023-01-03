@@ -154,14 +154,17 @@ body {
   height: 100%;
   width: 100%;
   border-radius: 5%;
+  display: none;
 }
 .magnitudeImageGray {
   height: 100%;
   width: 100%;
   border-radius: 5%;
+  display: none;
 }
 .phaseImageGray {
   height: 100%;
   width: 100%;
   border-radius: 5%;
+  display: none;
 }
