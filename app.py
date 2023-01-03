@@ -21,17 +21,16 @@ imagePath = {"magnitude": "", "phase": "", "combined": ""}
 imageNumber = 0
 # Main Function(connection the functions together):
 
-
 def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phase, y2_phase, cut_flag, filter_flag):
+    print(img1)
+    print(img2)
     print("welcome from the main function here is the images")
-    print(x1_amp)
-    print(x2_amp)
-    print(y1_amp)
-    print(y2_amp)
-    print(x1_phase)
-    print(x2_phase)
-    print(y1_phase)
-    print(y2_phase)
+    # print(y1_amp)
+    # print(y2_amp)
+    # print(x1_phase)
+    # print(x2_phase)
+    # print(y1_phase)
+    # print(y2_phase)
     combined_image = 0
     cutted_amplitude_img = 0
     cutted_phase_img = 0
@@ -39,9 +38,12 @@ def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phas
     img2_path = ImageClass(path=img2)  # Second Object
     image1 = img1_path.read()
     image2 = img2_path.read()
-
+    print(image1)
+    print(image2)
     img1_gray = ImageClass.grayScale(image1)
     img2_gray = ImageClass.grayScale(image2)
+    print(img1_gray)
+    print(img2_gray)
     cv2.imwrite('din.png', img1_gray)
     cv2.imwrite('di.png', img2_gray)
     image1_resized = ProcessingClass.Resize(img1_gray)
@@ -54,21 +56,18 @@ def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phas
         image1_resized_fft)
     image2_amplitude, image2_phase = ImageClass.separateMagnitudePhase(
         image2_resized_fft)
-    image1_amplitude_log = np.log(image1_amplitude+1e-10)
-    plt.imsave('image1_amplitude_saved.png', np.log(
-        image1_amplitude+1e-10), cmap='gray')
+    image1_amplitude_log=np.log(image1_amplitude+1e-10)
+    plt.imsave('image1_amplitude_saved.png', np.log(image1_amplitude+1e-10), cmap='gray')
     plt.imsave('image2_phase_saved.png', image2_phase, cmap='gray')
 
     radius_phase = ProcessingClass.distance_between_two_points(
-        x1_phase, x2_phase, y1_phase, y2_phase)
+            x1_phase, x2_phase, y1_phase, y2_phase)
     radius_magnitude = ProcessingClass.distance_between_two_points(
-        x1_amp, x2_amp, y1_amp, y2_amp)
+            x1_amp, x2_amp, y1_amp, y2_amp)
 
     # chooseOption(cut_flag, filter_flag, img, x1, x2, y1, y2, r)
-    magnitude = ProcessingClass.chooseOption(
-        cut_flag, filter_flag, image1_amplitude, x1_amp, x2_amp, y1_amp, y2_amp, radius_magnitude)
-    phase = ProcessingClass.chooseOption(
-        cut_flag, filter_flag, image2_phase, x1_phase, x2_phase, y1_phase, y2_phase, radius_phase)
+    magnitude = ProcessingClass.chooseOption(cut_flag, filter_flag, image1_amplitude,x1_amp, x2_amp, y1_amp, y2_amp ,radius_magnitude)
+    phase = ProcessingClass.chooseOption(cut_flag, filter_flag, image2_phase, x1_phase, x2_phase, y1_phase, y2_phase,radius_phase)
 
     # if cut_flag == 0:  # Cut in a rectangle shape
     #     if filter_flag == 0:  # Low Pass Filter
@@ -105,7 +104,8 @@ def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phas
           (1/(combined_image.max() - combined_image.min()) * 255)).astype('uint8')
     cv2.imwrite('comb.png', combined_image)
 
-    return combined_image, image2_phase, image1_amplitude_log
+    return combined_image,image2_phase,image1_amplitude_log
+
 
 
 def crete_delete_image(name, number, delete=False):
@@ -120,10 +120,11 @@ def crete_delete_image(name, number, delete=False):
 
 def new_image_path(names):
     paths = {}
+    global imageNumber
     for name in names:
         crete_delete_image(name, imageNumber, delete=True)
-        paths[name] = "../" + \
-            crete_delete_image(name, imageNumber+1, delete=False)
+        paths[name] = "../" +crete_delete_image(name, imageNumber+1, delete=False)
+    imageNumber+=1
     return paths
 
     # global imageNumber
@@ -193,7 +194,7 @@ def data(id):
         shape = form["values"][4]
         filter = form["values"][5]
         set_values(key, form["values"])
-        
+
         magnitude = values['magnitude']
         phase = values["phase"]
         if (magnitude['y2'] != None) and (phase["y2"] != None):
@@ -204,9 +205,9 @@ def data(id):
             # imagesValues = [combinedImage, grayMag, grayPhase]
             paths = new_image_path(imagesName)
 
-            cv2.imwrite(paths["combined"][2:],combinedImage)
-            plt.imsave(paths["grayMag"][2:],grayMag)
-            plt.imsave(paths["grayPhase"][2:],grayPhase)
+            cv2.imwrite(paths["combined"][3:],combinedImage)
+            plt.imsave(paths["grayMag"][3:],grayMag,cmap="gray")
+            plt.imsave(paths["grayPhase"][3:],grayPhase,cmap="gray")
             # path = new_image_path("combined", combinedImage)
             # cv2.imwrite(path, combinedImage)
             # result["combinedPath"] = "../"+path
@@ -227,3 +228,4 @@ def data(id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+

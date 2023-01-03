@@ -18,11 +18,43 @@ class ProcessingClass:
 
         return resized_img
 
+    @staticmethod
+    def chooseOption(cut_flag, filter_flag, img, x1, x2, y1, y2, r):
+        # Rectangle option
+        if cut_flag == 0:
+            x1, x2, y1, y2 = round(x1), round(x2), round(y1), round(y2)
+            # Low Pass Filter
+            if filter_flag == 0:
+                # crop_2d_img_rect(img, round(x1), round(x2), round(y1), round(y2))
+                max_height = img.shape[0] - 1
+                cutted_img = np.zeros_like(img)
+                for x in range(x1, x2):
+                    for y in range(y1, y2):
+                        cutted_img[max_height - y, x] = img[max_height - y, x]
+                return cutted_img
+            # HighPass Filter
+            else:
+                image = cv2.rectangle(np.log(img.tolist()), (x1, y1), (x2, y2), (0, 0, 0), -1)
+                return np.asarray(image)
+        # Circle option
+        else:
+            if filter_flag == 0:
+                h, w = img.shape
+                mask = np.zeros((h, w), np.uint8)
+                cv2.circle(mask, (x1, y1), r, 255, -1)
+                image = cv2.bitwise_and(img, img, mask=mask)
+                return image
+            else:
+                image = cv2.rectangle(np.log(img.tolist()), (x1, y1), (x2, y2), (0, 0, 0), -1)
+                return np.asarray(image)
+
+
     # Cut rectangle shape in fourier:
     @staticmethod
     def crop_2d_img_rect(img, x1, x2, y1, y2):
         max_height = img.shape[0] - 1
         cutted_img = np.zeros_like(img)
+
         for x in range(x1, x2):
             for y in range(y1, y2):
                 cutted_img[max_height - y, x] = img[max_height - y, x]
