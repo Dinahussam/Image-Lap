@@ -46,16 +46,16 @@ function send(id, values) {
     data: JSON.stringify({ values }),
     contentType: "application/json",
     dataType: "json",
-    success: function (response) {
+    success: function (resultPath) {
       {
         console.log("entered send action");
         let image = document.querySelector(".resultImage");
         image.style.display = "flex";
         phaseGray.style.display = "flex";
         magnitudeGray.style.display = "flex";
-        magnitudeGray.src = response.grayMag;
-        phaseGray.src = response.grayPhase;
-        image.src = response["combinedPath"];
+        magnitudeGray.src = resultPath.grayMag;
+        phaseGray.src = resultPath.grayPhase;
+        image.src = resultPath.combined;
         resultIcon.style.display = "none";
         resultmag.style.display = "none";
         resultphase.style.display = "none";
@@ -242,17 +242,17 @@ function drawImage(img, path, layer) {
 magnitudeImageInput.addEventListener("change", () => {
   upload(
     magnitudeImage,
-    1,
+    "magnitude",
     "canvas-magnitude",
     magnitudeImageBtn,
     magnitudeImageInput
   );
 });
 phaseImageInput.addEventListener("change", () => {
-  upload(phaseImage, 2, "canvas-phase", phaseImageBtn, phaseImageInput);
+  upload(phaseImage, "phase", "canvas-phase", phaseImageBtn, phaseImageInput);
 });
 
-function upload(uploadImage, number, container, uploadButton, input) {
+function upload(uploadImage, imageType, container, uploadButton, input) {
   reader = new FileReader();
   uploadImage.style.display = `flex`;
   reader.addEventListener("load", () => {
@@ -272,10 +272,12 @@ function upload(uploadImage, number, container, uploadButton, input) {
   reader.readAsDataURL(input.files[0]);
 
   let formData = new FormData();
+  formData.append("type",imageType)
   formData.append("file", input.files[0]);
+
   $.ajax({
     type: "POST",
-    url: "/image/" + number,
+    url: "/image",
     data: formData,
     contentType: false,
     cache: false,
@@ -303,14 +305,14 @@ b1.addEventListener("click", function () {
   magnitudeImageInput.addEventListener("change", () => {
     upload(
       magnitudeImage,
-      1,
+      "magnitude",
       "canvas-magnitude",
       magnitudeImageBtn,
       magnitudeImageInput
     );
   });
   phaseImageInput.addEventListener("change", () => {
-    upload(phaseImage, 2, "canvas-phase", phaseImageBtn, phaseImageInput);
+    upload(phaseImage, "phase", "canvas-phase", phaseImageBtn, phaseImageInput);
   });
 });
 

@@ -23,7 +23,6 @@ class ProcessingClass:
     def crop_2d_img_rect(img, x1, x2, y1, y2):
         max_height = img.shape[0] - 1
         cutted_img = np.zeros_like(img)
-
         for x in range(x1, x2):
             for y in range(y1, y2):
                 cutted_img[max_height - y, x] = img[max_height - y, x]
@@ -41,7 +40,7 @@ class ProcessingClass:
         image = cv2.bitwise_and(img, img, mask=mask)
 
         return image
-    
+
     # High Pass Filter For Rectangle:
     @staticmethod
     def highPassFilterRect(img, x1, x2, y1, y2):
@@ -52,7 +51,7 @@ class ProcessingClass:
         print(y2)
         image = cv2.rectangle(np.log(img.tolist()), (x1, y1), (x2, y2), (0, 0, 0), -1)
         return np.asarray(image)
-    
+
     # High Pass Filter For Circle:
     @staticmethod
     def highPassFilterCir(img, x1, y1, radius):

@@ -54,57 +54,88 @@ def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phas
         image1_resized_fft)
     image2_amplitude, image2_phase = ImageClass.separateMagnitudePhase(
         image2_resized_fft)
-    image1_amplitude_log=np.log(image1_amplitude+1e-10)
-    plt.imsave('image1_amplitude_saved.png', np.log(image1_amplitude+1e-10), cmap='gray')
+    image1_amplitude_log = np.log(image1_amplitude+1e-10)
+    plt.imsave('image1_amplitude_saved.png', np.log(
+        image1_amplitude+1e-10), cmap='gray')
     plt.imsave('image2_phase_saved.png', image2_phase, cmap='gray')
-    if cut_flag == 0:  # Cut in a rectangle shape
-        if filter_flag == 0:  # Low Pass Filter
 
-            cutted_phase_img = ProcessingClass.crop_2d_img_rect(
-                image2_phase, round(x1_phase), round(x2_phase), round(y1_phase), round(y2_phase))
-            cutted_amplitude_img = ProcessingClass.crop_2d_img_rect(
-                image1_amplitude, round(x1_amp), round(x2_amp), round(y1_amp), round(y2_amp))
-        if filter_flag == 1:  # High Pass Filter
-            cutted_phase_img = ProcessingClass.highPassFilterRect(
-                image2_phase, round(x1_phase), round(x2_phase), round(y1_phase), round(y2_phase))
-            cutted_amplitude_img = ProcessingClass.highPassFilterRect(
-                image1_amplitude, round(x1_amp), round(x2_amp), round(y1_amp), round(y2_amp))
+    radius_phase = ProcessingClass.distance_between_two_points(
+        x1_phase, x2_phase, y1_phase, y2_phase)
+    radius_magnitude = ProcessingClass.distance_between_two_points(
+        x1_amp, x2_amp, y1_amp, y2_amp)
 
-    if cut_flag == 1:  # Cut in a circle shape
-        radius_phase = ProcessingClass.distance_between_two_points(
-            x1_phase, x2_phase, y1_phase, y2_phase)
-        radius_magnitude = ProcessingClass.distance_between_two_points(
-            x1_amp, x2_amp, y1_amp, y2_amp)
-        if filter_flag == 0:  # Low Pass Filter
-            cutted_phase_img = ProcessingClass.crop_2d_img_cir(
-                image2_phase, x1_phase, y1_phase, radius_phase)
-            cutted_amplitude_img = ProcessingClass.crop_2d_img_cir(
-                image1_amplitude, x1_amp, y1_amp, radius_magnitude)
-        if filter_flag == 1:  # High Pass Filter
-            cutted_phase_img = ProcessingClass.highPassFilterCir(
-                image2_phase, x1_phase, y1_phase, radius_phase)
-            cutted_amplitude_img = ProcessingClass.highPassFilterCir(
-                image1_amplitude, x1_amp, y1_amp, radius_magnitude)
+    # chooseOption(cut_flag, filter_flag, img, x1, x2, y1, y2, r)
+    magnitude = ProcessingClass.chooseOption(
+        cut_flag, filter_flag, image1_amplitude, x1_amp, x2_amp, y1_amp, y2_amp, radius_magnitude)
+    phase = ProcessingClass.chooseOption(
+        cut_flag, filter_flag, image2_phase, x1_phase, x2_phase, y1_phase, y2_phase, radius_phase)
+
+    # if cut_flag == 0:  # Cut in a rectangle shape
+    #     if filter_flag == 0:  # Low Pass Filter
+
+    #         cutted_phase_img = ProcessingClass.crop_2d_img_rect(
+    #             image2_phase, round(x1_phase), round(x2_phase), round(y1_phase), round(y2_phase))
+    #         cutted_amplitude_img = ProcessingClass.crop_2d_img_rect(
+    #             image1_amplitude, round(x1_amp), round(x2_amp), round(y1_amp), round(y2_amp))
+    #     if filter_flag == 1:  # High Pass Filter
+    #         cutted_phase_img = ProcessingClass.highPassFilterRect(
+    #             image2_phase, round(x1_phase), round(x2_phase), round(y1_phase), round(y2_phase))
+    #         cutted_amplitude_img = ProcessingClass.highPassFilterRect(
+    #             image1_amplitude, round(x1_amp), round(x2_amp), round(y1_amp), round(y2_amp))
+
+    # if cut_flag == 1:  # Cut in a circle shape
+    #     radius_phase = ProcessingClass.distance_between_two_points(
+    #         x1_phase, x2_phase, y1_phase, y2_phase)a
+    #     radius_magnitude = ProcessingClass.distance_between_two_points(
+    #         x1_amp, x2_amp, y1_amp, y2_amp)
+    #     if filter_flag == 0:  # Low Pass Filter
+    #         cutted_phase_img = ProcessingClass.crop_2d_img_cir(
+    #             image2_phase, x1_phase, y1_phase, radius_phase)
+    #         cutted_amplitude_img = ProcessingClass.crop_2d_img_cir(
+    #             image1_amplitude, x1_amp, y1_amp, radius_magnitude)
+    #     if filter_flag == 1:  # High Pass Filter
+    #         cutted_phase_img = ProcessingClass.highPassFilterCir(
+    #             image2_phase, x1_phase, y1_phase, radius_phase)
+    #         cutted_amplitude_img = ProcessingClass.highPassFilterCir(
+    #             image1_amplitude, x1_amp, y1_amp, radius_magnitude)
     print("hello combined")
     combined_image = ProcessingClass.combination(
-        cutted_amplitude_img, cutted_phase_img)
+        magnitude, phase)
     im = ((combined_image - combined_image.min()) *
           (1/(combined_image.max() - combined_image.min()) * 255)).astype('uint8')
     cv2.imwrite('comb.png', combined_image)
 
-    return combined_image,image2_phase,image1_amplitude_log
+    return combined_image, image2_phase, image1_amplitude_log
 
 
-def new_image_path(name, imageArray):
-    global imageNumber
-    imageExtension = name+str(imageNumber)+".png"
-    path="static/imgs/"+imageExtension
-    if os.path.exists(path):
-        os.remove(path)
-    imageNumber += 1
-    imageExtension = name+str(imageNumber)+".png"
-    path="static/imgs/"+imageExtension
-    return path
+def crete_delete_image(name, number, delete=False):
+    imageName = name+str(number)+".png"
+    path = "static/imgs/"+imageName
+    if(delete):
+        if (os.path.exists(path)):
+            os.remove(path)
+    else:
+        return path
+
+
+def new_image_path(names):
+    paths = {}
+    for name in names:
+        crete_delete_image(name, imageNumber, delete=True)
+        paths[name] = "../" + \
+            crete_delete_image(name, imageNumber+1, delete=False)
+    return paths
+
+    # global imageNumber
+    # imageExtension = name+str(imageNumber)+".png"
+    # path = "static/imgs/"+imageExtension
+    # if os.path.exists(path):
+    #     os.remove(path)
+    # imageNumber += 1
+    # imageExtension = name+str(imageNumber)+".png"
+    # path = "static/imgs/"+imageExtension
+    # return path
+
 
 def save_image(file, type):  # the type is choose between magnitude or phase
     name = type+'.'+file.filename.split('.')[-1]
@@ -128,24 +159,22 @@ def set_values(key, list):
         i += 1
 
 
+def upload_process(file, type):
+    save_image(file, type)
+    restart_values(type)
+
+
 @app.route('/', methods=['GET'])
 def index():
-   
+
     return render_template('main.html')
 
 
-@app.route('/image/<int:id>', methods=['POST'])
-def image(id):
-    if request.files['file']:
-        if id == 1:
-            file_mag = request.files['file']
-            path=save_image(file_mag, "magnitude")
-            restart_values("magnitude")
-        else:
-            file_phase = request.files['file']
-            path=save_image(file_phase, "phase")
-            restart_values("phase")
- 
+@app.route('/image', methods=['POST'])
+def image():
+    file = request.files['file']
+    type = request.form["type"]
+    upload_process(file, type)
     return render_template("main.html")
 
 
@@ -155,42 +184,46 @@ def data(id):
     if request.method == 'POST':
         key = ""
         form = request.get_json()
-        print(id)
-        print(form)
         if (id == 1):
             key = "magnitude"
         else:
             key = "phase"
-        print(form["values"])
         # 0 for rectangle and 1 for circle for index 4 and for index 5 >> 0 for low pass filter and 1 for high pass filter
         global shape, filter
         shape = form["values"][4]
         filter = form["values"][5]
         set_values(key, form["values"])
+        
         magnitude = values['magnitude']
         phase = values["phase"]
         if (magnitude['y2'] != None) and (phase["y2"] != None):
-            combinedImage,grayPhase,grayMag = Main(imagePath["magnitude"], imagePath["phase"], magnitude["x1"], magnitude["x2"],
-                                 magnitude["y1"], magnitude["y2"], phase["x1"], phase["x2"], phase["y1"], phase["y2"], shape, filter)
-            global imageNumber
+            combinedImage, grayPhase, grayMag = Main(imagePath["magnitude"], imagePath["phase"], magnitude["x1"], magnitude["x2"],
+                                                     magnitude["y1"], magnitude["y2"], phase["x1"], phase["x2"], phase["y1"], phase["y2"], shape, filter)
             # im = cv2.imread(combinedImage)
-            result={}
-            path=new_image_path("combined", combinedImage)
-            cv2.imwrite(path,combinedImage)
-            result["combinedPath"]="../"+path
+            imagesName = ["combined", "grayMag", "grayPhase"]
+            # imagesValues = [combinedImage, grayMag, grayPhase]
+            paths = new_image_path(imagesName)
 
-            path=new_image_path("greyMag",grayMag)
-            plt.imsave(path,grayMag,cmap="gray")
-            result["grayMag"]="../"+path
+            cv2.imwrite(paths["combined"][2:],combinedImage)
+            plt.imsave(paths["grayMag"][2:],grayMag)
+            plt.imsave(paths["grayPhase"][2:],grayPhase)
+            # path = new_image_path("combined", combinedImage)
+            # cv2.imwrite(path, combinedImage)
+            # result["combinedPath"] = "../"+path
 
-            path=new_image_path("greyphase",grayPhase)
-            plt.imsave(path,grayPhase,cmap="gray")
-            result["grayPhase"]="../"+path
+            # path = new_image_path("greyMag", grayMag)
+            # plt.imsave(path, grayMag, cmap="gray")
+            # result["grayMag"] = "../"+path
 
-            return jsonify(result)
+            # path = new_image_path("greyphase", grayPhase)
+
+            # plt.imsave(path, grayPhase, cmap="gray")
+
+            # result["grayPhase"] = "../"+path
+
+            return jsonify(paths)
     return redirect('/')
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-
