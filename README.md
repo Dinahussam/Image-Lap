@@ -3,12 +3,12 @@
 
 This website provide the user to understand more about frequency components of images and how strong each component effects the images  
 *First: The components*
->frequency components of the image:
+>
     1. Magnitude
     2. Phase
 >
 *Second: The Functionality*
->what the website provide
+>
     1. Low Pass Filter: It provides the image components of frequencies lower than the user select
     2. High Pass filter: It provides the image components of frequencies higher than the user select
 >
