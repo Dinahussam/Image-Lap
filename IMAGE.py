@@ -14,12 +14,6 @@ class ImageClass:
         self.image = cv2.imread(self.image_path)
         return self.image
 
-    # # Write
-    # @staticmethod
-    # def write(pathName, img):
-    #     save_img = cv2.imwrite(pathName, img)
-    #     return save_img
-
     # Transform tha image from RGB Scale to Gray Scale:
     @staticmethod
     def grayScale(img):

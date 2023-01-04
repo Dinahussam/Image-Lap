@@ -17,36 +17,8 @@ class ProcessingClass:
         resized_img = cv2.resize(img, size, interpolation=cv2.INTER_AREA)
 
         return resized_img
-
-    @staticmethod
-    def chooseOption(cut_flag, filter_flag, img, x1, x2, y1, y2, r):
-        x1, x2, y1, y2 = round(x1), round(x2), round(y1), round(y2)
-        # Rectangle option
-        if cut_flag == 0:
-            # Inside
-            if filter_flag == 0:
-                # crop_2d_img_rect(img, round(x1), round(x2), round(y1), round(y2))
-                cutted_img = ProcessingClass.crop_2d_img_rect(img, x1, x2, y1, y2)
-                return cutted_img
-
-            # Outside
-            if filter_flag == 1:
-                cutted_img = ProcessingClass.highPassFilterRect(img, x1, x2, y1, y2)
-                return cutted_img
-
-        # Circle option
-        if cut_flag == 1:
-            # Inside
-            if filter_flag == 0:
-                cutted_img = ProcessingClass.crop_2d_img_cir(img, x1, y1, r)
-                return cutted_img
-
-            # Outside
-            if filter_flag == 1:
-                cutted_img = ProcessingClass.highPassFilterCir(img, x1, y1, r)
-                return cutted_img
-
-    # Cut rectangle shape in fourier:
+        
+     # Cut rectangle shape in fourier:
     @staticmethod
     def crop_2d_img_rect(img, x1, x2, y1, y2):
         max_height = img.shape[0] - 1
@@ -92,6 +64,34 @@ class ProcessingClass:
     def distance_between_two_points(x1, x2, y1, y2):
         distance = round(np.sqrt((y2 - y1) ** 2 + (x2 - x1) ** 2))
         return distance
+
+    @staticmethod
+    def chooseOption(cut_flag, filter_flag, img, x1, x2, y1, y2, r):
+        x1, x2, y1, y2 = round(x1), round(x2), round(y1), round(y2)
+        # Rectangle option
+        if cut_flag == 0:
+            # Inside
+            if filter_flag == 0:
+                # crop_2d_img_rect(img, round(x1), round(x2), round(y1), round(y2))
+                cutted_img = ProcessingClass.crop_2d_img_rect(img, x1, x2, y1, y2)
+                return cutted_img
+
+            # Outside
+            if filter_flag == 1:
+                cutted_img = ProcessingClass.highPassFilterRect(img, x1, x2, y1, y2)
+                return cutted_img
+
+        # Circle option
+        if cut_flag == 1:
+            # Inside
+            if filter_flag == 0:
+                cutted_img = ProcessingClass.crop_2d_img_cir(img, x1, y1, r)
+                return cutted_img
+
+            # Outside
+            if filter_flag == 1:
+                cutted_img = ProcessingClass.highPassFilterCir(img, x1, y1, r)
+                return cutted_img
 
     # Get image (Image Reconstruction) by computing --> [amplitude * exp(j * phase)]:
     @staticmethod

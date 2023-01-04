@@ -22,9 +22,6 @@ imageNumber = 0
 # Main Function(connection the functions together):
 
 def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phase, y2_phase, cut_flag, filter_flag):
-    print(img1)
-    print(img2)
-    print("welcome from the main function here is the images")
     combined_image = 0
     cutted_amplitude_img = 0
     cutted_phase_img = 0
@@ -32,12 +29,10 @@ def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phas
     img2_path = ImageClass(path=img2)  # Second Object
     image1 = img1_path.read()
     image2 = img2_path.read()
-    print(image1)
-    print(image2)
+
     img1_gray = ImageClass.grayScale(image1)
     img2_gray = ImageClass.grayScale(image2)
-    print(img1_gray)
-    print(img2_gray)
+ 
     cv2.imwrite('din.png', img1_gray)
     cv2.imwrite('di.png', img2_gray)
     image1_resized = ProcessingClass.Resize(img1_gray)
@@ -62,6 +57,7 @@ def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phas
     # chooseOption(cut_flag, filter_flag, img, x1, x2, y1, y2, r)
     magnitude = ProcessingClass.chooseOption(cut_flag, filter_flag, image1_amplitude,x1_amp, x2_amp, y1_amp, y2_amp ,radius_magnitude)
     phase = ProcessingClass.chooseOption(cut_flag, filter_flag, image2_phase, x1_phase, x2_phase, y1_phase, y2_phase,radius_phase)
+
     print("hello combined")
     print(magnitude)   
     print(phase)   
