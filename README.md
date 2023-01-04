@@ -44,6 +44,7 @@ This website provide the user to understand more about frequency components of i
 
 ### Project Structure
 The Web Application is built using:
+[![My Skills](https://skillicons.dev/icons?i=js,html,css,wasm)](https://skillicons.dev)
 
 - Frontend:
   - HTML
