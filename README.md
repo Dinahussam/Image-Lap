@@ -80,11 +80,21 @@ Download it from www.python.org/downloads/
 ```
 
 2. Install the following packages
-   - pip install numpy
-   - pip install Flask
-   - pip install os
-   - pip install jsonify
-   - pip install opencv-python
+```
+pip install numpy
+```
+```
+pip install Flask
+```
+```
+pip install os
+```
+```
+pip install jsonify
+```
+```
+pip install opencv-python
+```
 
 
 - Open Project Terminal & Run
