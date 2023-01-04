@@ -7,7 +7,7 @@
 - [Project Features](#project-features)
 - [Project Structure](#project-structure)
 - [How to Run The Project](#run-the-project)
-- [Team]()
+- [Team](#team)
 
 ### Introduction
 This website provide the user to understand more about frequency components of images and how strong each component effects the images  
