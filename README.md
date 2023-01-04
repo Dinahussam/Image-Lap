@@ -97,19 +97,19 @@ pip install opencv-python
 ```
 
 
-- Open Project Terminal & Run
+3. Open Project Terminal & Run
 
 ```
 pip install -r requirments.txt
 ```
 
-3. Start Server by Running
+4. Start Server by Running
 
 ```
 python app.py
 ```
 
-4. Visit http://127.0.0.1:5000
+5. Visit http://127.0.0.1:5000
 
 ### Team
 
