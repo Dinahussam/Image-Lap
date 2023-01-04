@@ -55,7 +55,7 @@ The Web Application is built using:
   
 The Frontend main function to set the structure of the page and determine the indices of cropper and mange
 the user interface while the backend function is to do on images operations like resizing,
-, apply Fourier transform,  cutting, combining & reconstructing images.
+applying  Fourier transform,  cutting, combining & reconstructing images.
 
 ```
 main
