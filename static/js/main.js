@@ -128,40 +128,38 @@ function drawRect(stage, layer) {
       }
     }
     isNowDrawing = true;
-  
-      rectDown(stage, layer);
-    
+
+    rectDown(stage, layer);
   }
   function mousemoveHandler() {
     if (!isNowDrawing) return false;
-      rectMove(stage);
-    
+    rectMove(stage);
   }
   function mouseupHandler() {
     isNowDrawing = false;
     if (stage === magStage) {
-        valuesMag = addData(
-          rectMag.x(),
-          rectMag.y(),
-          rectMag.x() + rectMag.width(),
-          rectMag.y() + rectMag.height(),
-          shapeFlag,
-          filterFlag
-        );
-      
+      valuesMag = addData(
+        rectMag.x(),
+        rectMag.y(),
+        rectMag.x() + rectMag.width(),
+        rectMag.y() + rectMag.height(),
+        shapeFlag,
+        filterFlag
+      );
+
       if (valuesMag.length === 6) {
         send(1, valuesMag);
       }
     } else {
-        valuesPhase = addData(
-          rectPhase.x(),
-          rectPhase.y(),
-          rectPhase.x() + rectPhase.width(),
-          rectPhase.y() + rectPhase.height(),
-          shapeFlag,
-          filterFlag
-        );
-      
+      valuesPhase = addData(
+        rectPhase.x(),
+        rectPhase.y(),
+        rectPhase.x() + rectPhase.width(),
+        rectPhase.y() + rectPhase.height(),
+        shapeFlag,
+        filterFlag
+      );
+
       if (valuesPhase.length === 6) {
         send(2, valuesPhase);
         console.log(valuesPhase);
@@ -260,7 +258,6 @@ btn1.addEventListener("click", function () {
     upload(phaseImage, "phase", "canvas-phase", phaseImageBtn, phaseImageInput);
   });
 });
-
 
 function addData(x1, y1, x2, y2, shape, place) {
   var value = [];

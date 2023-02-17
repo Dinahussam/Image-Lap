@@ -24,32 +24,45 @@ imageNumber = 0
 # Main Function(connection the functions together):
 def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phase, y2_phase, cut_flag, filter_flag):
     combined_image = 0
-    img1_path = ImageClass(path=img1)  # First Object
-    img2_path = ImageClass(path=img2)  # Second Object
-    image1 = img1_path.read()
-    image2 = img2_path.read()
+    img_arr = [img1, img2]
+    output_amplitude_phase = []
+    # output_phase = []
+    for i in img_arr:
+        img_path = ImageClass(path=i)
+        # img1_path = ImageClass(path=img1)  # First Object
+        # img2_path = ImageClass(path=img2)  # Second Object
+        image = img_path.read()
+        # image1 = img1_path.read()
+        # image2 = img2_path.read()
 
-    img1_gray = ImageClass.grayScale(image1)
-    img2_gray = ImageClass.grayScale(image2)
+        img_gray = ImageClass.grayScale(image)
+        # img1_gray = ImageClass.grayScale(image1)
+        # img2_gray = ImageClass.grayScale(image2)
 
-    image1_resized = ProcessingClass.Resize(img1_gray)
-    image2_resized = ProcessingClass.Resize(img2_gray)
+        image_resized = ProcessingClass.Resize(img_gray)
+        # image1_resized = ProcessingClass.Resize(img1_gray)
+        # image2_resized = ProcessingClass.Resize(img2_gray)
 
-    image1_resized_fft = ImageClass.fourierTransform(image1_resized)
-    image2_resized_fft = ImageClass.fourierTransform(image2_resized)
+        image_resized_fft = ImageClass.fourierTransform(image_resized)
+        # image1_resized_fft = ImageClass.fourierTransform(image1_resized)
+        # image2_resized_fft = ImageClass.fourierTransform(image2_resized)
 
-    image1_amplitude, image1_phase = ImageClass.separateMagnitudePhase(image1_resized_fft)
-    image2_amplitude, image2_phase = ImageClass.separateMagnitudePhase(image2_resized_fft)
-    image1_amplitude_log = np.log(image1_amplitude + 1e-10)
+        image_amplitude, image_phase = ImageClass.separateMagnitudePhase(image_resized_fft)
+        output_amplitude_phase.append(image_amplitude)
+        output_amplitude_phase.append(image_phase)
+        # image1_amplitude, image1_phase = ImageClass.separateMagnitudePhase(image1_resized_fft)
+        # image2_amplitude, image2_phase = ImageClass.separateMagnitudePhase(image2_resized_fft)
+
+        image1_amplitude_log = np.log(output_amplitude_phase[0] + 1e-10)
 
 
-    phase = ProcessingClass.rect(image2_phase, x1_phase, x2_phase, y1_phase, y2_phase, filter_flag)
-    magnitude = ProcessingClass.rect(image1_amplitude, x1_amp, x2_amp, y1_amp, y2_amp, filter_flag)
+    phase = ProcessingClass.rect(output_amplitude_phase[3], x1_phase, x2_phase, y1_phase, y2_phase, filter_flag)
+    magnitude = ProcessingClass.rect(output_amplitude_phase[0], x1_amp, x2_amp, y1_amp, y2_amp, filter_flag)
 
     combined_image = ProcessingClass.combination(magnitude, phase)
     
 
-    return combined_image, image2_phase, image1_amplitude_log
+    return combined_image, output_amplitude_phase[3], image1_amplitude_log
 
 
 def crete_delete_image(name, number, delete=False):

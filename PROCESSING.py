@@ -23,18 +23,24 @@ class ProcessingClass:
 # Cut rectangle shape in fourier:
     @staticmethod
     def rect(img, x1, x2, y1, y2, filter_flag):
-        zero_2d_array = np.zeros_like(img)
-        img_copy = img
-        zeros_copy = zero_2d_array
-        max_height = img.shape[0] - 1
-        for x in range(x1, x2):
-            for y in range(y1, y2):
-                zero_2d_array[max_height - y, x] = img_copy[max_height - y, x]
-                img[max_height - y, x] = zeros_copy[max_height - y, x]
-
         if filter_flag == 0:
+            zero_2d_array = np.zeros_like(img)
+            img_copy = img
+            zeros_copy = zero_2d_array
+            max_height = img.shape[0] - 1
+            for x in range(x1, x2):
+                for y in range(y1, y2):
+                    zero_2d_array[max_height - y, x] = img_copy[max_height - y, x]
             return zero_2d_array
+        
         if filter_flag == 1:
+            zero_2d_array = np.zeros_like(img)
+            img_copy = img
+            zeros_copy = zero_2d_array
+            max_height = img.shape[0] - 1
+            for x in range(x1, x2):
+                for y in range(y1, y2):
+                    img[max_height - y, x] = zeros_copy[max_height - y, x]
             return img
 
     @staticmethod
