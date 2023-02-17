@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template, request, redirect
 import os
 import cv2
-from functions import Functions
+# from functions import Functions
 from werkzeug.utils import secure_filename
 from PIL import Image
 from IMAGE import ImageClass
@@ -19,12 +19,11 @@ filter = None  # >> 0 for low pass filter and 1 for high pass filter
 shape = None  # >> 0 for rectangle and 1  for the circle
 imagePath = {"magnitude": "", "phase": "", "combined": ""}
 imageNumber = 0
-# Main Function(connection the functions together):
 
+
+# Main Function(connection the functions together):
 def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phase, y2_phase, cut_flag, filter_flag):
     combined_image = 0
-    cutted_amplitude_img = 0
-    cutted_phase_img = 0
     img1_path = ImageClass(path=img1)  # First Object
     img2_path = ImageClass(path=img2)  # Second Object
     image1 = img1_path.read()
@@ -32,44 +31,25 @@ def Main(img1, img2, x1_amp, x2_amp, y1_amp, y2_amp, x1_phase, x2_phase, y1_phas
 
     img1_gray = ImageClass.grayScale(image1)
     img2_gray = ImageClass.grayScale(image2)
- 
-    cv2.imwrite('din.png', img1_gray)
-    cv2.imwrite('di.png', img2_gray)
+
     image1_resized = ProcessingClass.Resize(img1_gray)
     image2_resized = ProcessingClass.Resize(img2_gray)
 
     image1_resized_fft = ImageClass.fourierTransform(image1_resized)
     image2_resized_fft = ImageClass.fourierTransform(image2_resized)
 
-    image1_amplitude, image1_phase = ImageClass.separateMagnitudePhase(
-        image1_resized_fft)
-    image2_amplitude, image2_phase = ImageClass.separateMagnitudePhase(
-        image2_resized_fft)
-    image1_amplitude_log=np.log(image1_amplitude+1e-10)
-    plt.imsave('image1_amplitude_saved.png', np.log(image1_amplitude+1e-10), cmap='gray')
-    plt.imsave('image2_phase_saved.png', image2_phase, cmap='gray')
+    image1_amplitude, image1_phase = ImageClass.separateMagnitudePhase(image1_resized_fft)
+    image2_amplitude, image2_phase = ImageClass.separateMagnitudePhase(image2_resized_fft)
+    image1_amplitude_log = np.log(image1_amplitude + 1e-10)
 
-    radius_phase = ProcessingClass.distance_between_two_points(
-            x1_phase, x2_phase, y1_phase, y2_phase)
-    radius_magnitude = ProcessingClass.distance_between_two_points(
-            x1_amp, x2_amp, y1_amp, y2_amp)
 
-    # chooseOption(cut_flag, filter_flag, img, x1, x2, y1, y2, r)
-    magnitude = ProcessingClass.chooseOption(cut_flag, filter_flag, image1_amplitude,x1_amp, x2_amp, y1_amp, y2_amp ,radius_magnitude)
-    phase = ProcessingClass.chooseOption(cut_flag, filter_flag, image2_phase, x1_phase, x2_phase, y1_phase, y2_phase,radius_phase)
+    phase = ProcessingClass.rect(image2_phase, x1_phase, x2_phase, y1_phase, y2_phase, filter_flag)
+    magnitude = ProcessingClass.rect(image1_amplitude, x1_amp, x2_amp, y1_amp, y2_amp, filter_flag)
 
-    print("hello combined")
-    print(magnitude)   
-    print(phase)   
-    combined_image = ProcessingClass.combination(
-        magnitude, phase)
-    print(combined_image)    
-    im = ((combined_image - combined_image.min()) *
-          (1/(combined_image.max() - combined_image.min()) * 255)).astype('uint8')
-    cv2.imwrite('comb.png', combined_image)
+    combined_image = ProcessingClass.combination(magnitude, phase)
+    
 
-    return combined_image,image2_phase,image1_amplitude_log
-
+    return combined_image, image2_phase, image1_amplitude_log
 
 
 def crete_delete_image(name, number, delete=False):
@@ -131,7 +111,6 @@ def image():
     upload_process(file, type)
     return render_template("main.html")
 
-
 @app.route('/data/<int:id>', methods=['POST'])
 def data(id):
     print("here is the function ")
@@ -152,12 +131,11 @@ def data(id):
         phase = values["phase"]
         if (magnitude['y2'] != None) and (phase["y2"] != None):
             combinedImage, grayPhase, grayMag = Main(imagePath["magnitude"], imagePath["phase"], magnitude["x1"], magnitude["x2"],
-                                                     magnitude["y1"], magnitude["y2"], phase["x1"], phase["x2"], phase["y1"], phase["y2"], shape, filter)
+                                                    magnitude["y1"], magnitude["y2"], phase["x1"], phase["x2"], phase["y1"], phase["y2"], shape, filter)
             # im = cv2.imread(combinedImage)
             imagesName = ["combined", "grayMag", "grayPhase"]
             # imagesValues = [combinedImage, grayMag, grayPhase]
             paths = new_image_path(imagesName)
-
             cv2.imwrite(paths["combined"][3:],combinedImage)
             plt.imsave(paths["grayMag"][3:],grayMag,cmap="gray")
             plt.imsave(paths["grayPhase"][3:],grayPhase,cmap="gray")
@@ -168,4 +146,3 @@ def data(id):
 
 if __name__ == '__main__':
     app.run(debug=True)
-

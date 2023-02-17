@@ -24,16 +24,11 @@ let rect;
 var path = "";
 let rectMag;
 let rectPhase;
-let cirMag;
-let cirPhase;
 let rectFlag = 1;
-let circleFlag = 0;
 let magStage;
 let phaseStage;
 let rectArray1 = [];
 let rectArray2 = [];
-let cirArray1 = [];
-let cirArray2 = [];
 let stagArray = [];
 let isNowDrawing = false;
 var path = "";
@@ -86,33 +81,6 @@ function drawLayer(stage) {
   return layer;
 }
 
-function circleDown(stage, layer) {
-  cir = new Konva.Circle({
-    x: stage.getPointerPosition().x,
-    y: stage.getPointerPosition().y,
-    radius: 0,
-    fill: "transparent",
-    stroke: "##1d27b6",
-    strokeWidth: 2,
-  });
-  if (stage === magStage) {
-    cirMag = cir;
-    layer.add(cirMag);
-    cirArray1.push(cirMag);
-  } else {
-    cirPhase = cir;
-    layer.add(cirPhase);
-    cirArray2.push(cirPhase);
-  }
-
-  layer.draw();
-}
-function circleMove(stage) {
-  const rise = Math.pow(stage.getPointerPosition().y - cir.y(), 2);
-  const run = Math.pow(stage.getPointerPosition().x - cir.x(), 2);
-  const newRadius = Math.sqrt(rise + run);
-  cir.radius(newRadius);
-}
 function rectDown(stage, layer) {
   rect = new Konva.Rect({
     x: stage.getPointerPosition().x,
@@ -153,48 +121,25 @@ function drawRect(stage, layer) {
         rectMag.destroy();
         valuesMag = [];
       }
-      if (cirArray1.length > 0) {
-        cirMag.destroy();
-        valuesMag = [];
-      }
     } else {
       if (rectArray2.length > 0) {
         rectPhase.destroy();
         valuesPhase = [];
       }
-      if (cirArray2.length > 0) {
-        cirPhase.destroy();
-        valuesPhase = [];
-      }
     }
     isNowDrawing = true;
-    if (circleFlag === 1) {
-      circleDown(stage, layer);
-    } else {
+  
       rectDown(stage, layer);
-    }
+    
   }
   function mousemoveHandler() {
     if (!isNowDrawing) return false;
-    if (circleFlag === 1) {
-      circleMove(stage);
-    } else {
       rectMove(stage);
-    }
+    
   }
   function mouseupHandler() {
     isNowDrawing = false;
     if (stage === magStage) {
-      if (circleFlag === 1) {
-        valuesMag = addData(
-          cirMag.x(),
-          cirMag.y(),
-          stage.getPointerPosition().x,
-          stage.getPointerPosition().y,
-          shapeFlag,
-          filterFlag
-        );
-      } else {
         valuesMag = addData(
           rectMag.x(),
           rectMag.y(),
@@ -203,21 +148,11 @@ function drawRect(stage, layer) {
           shapeFlag,
           filterFlag
         );
-      }
+      
       if (valuesMag.length === 6) {
         send(1, valuesMag);
       }
     } else {
-      if (circleFlag === 1) {
-        valuesPhase = addData(
-          cirPhase.x(),
-          cirPhase.y(),
-          stage.getPointerPosition().x,
-          stage.getPointerPosition().y,
-          shapeFlag,
-          filterFlag
-        );
-      } else {
         valuesPhase = addData(
           rectPhase.x(),
           rectPhase.y(),
@@ -226,7 +161,7 @@ function drawRect(stage, layer) {
           shapeFlag,
           filterFlag
         );
-      }
+      
       if (valuesPhase.length === 6) {
         send(2, valuesPhase);
         console.log(valuesPhase);
@@ -326,34 +261,6 @@ btn1.addEventListener("click", function () {
   });
 });
 
-btn2.addEventListener("click", function () {
-  circleFlag = 1;
-  rectFlag = 0;
-  shapeFlag = 1;
-  if (rectArray1.length > 0) {
-    rectMag.destroy();
-  }
-  if (rectArray2.length > 0) {
-    rectPhase.destroy();
-  }
-});
-
-btn3.addEventListener("click", function () {
-  circleFlag = 0;
-  rectFlag = 1;
-  shapeFlag = 0;
-  cirMag.destroy();
-  cirPhase.destroy();
-});
-
-btn4.addEventListener("click", function () {
-  filterFlag = 1;
-});
-
-btn5.addEventListener("click", function () {
-  filterFlag = 0;
-});
-Footer;
 
 function addData(x1, y1, x2, y2, shape, place) {
   var value = [];
@@ -364,4 +271,16 @@ function addData(x1, y1, x2, y2, shape, place) {
   value.push(shape);
   value.push(place);
   return value;
+}
+
+function myFunction() {
+  // Get the checkbox
+  var checkBox = document.getElementById("myCheck");
+
+  // If the checkbox is checked, display the output text
+  if (checkBox.checked == true) {
+    filterFlag = 1;
+  } else {
+    filterFlag = 0;
+  }
 }
